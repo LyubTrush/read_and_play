@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Волшебная буква A - Read and Play</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        /* Стили для страницы модуля */
+        .module-hero {
+            background: linear-gradient(135deg, #fff, #AED7D1);
+            padding: 80px 0 60px;
+            color: white;
+            text-align: center;
+        }
+
+        .module-hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .module-hero p {
+            font-size: 20px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        .rules-section {
+            padding: 60px 0;
+            background-color: #FFFFFF;
+        }
+
+        .rule-block {
+            background: #FFFFFF;
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            border: 2px solid #F7F1E5;
+            transition: all 0.3s ease;
+        }
+
+        .rule-block:hover {
+            border-color: #E57140;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        .rule-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .rule-icon {
+            width: 70px;
+            height: 70px;
+            background: #F7F1E5;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+
+        .rule-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #3F413E;
+            margin-bottom: 8px;
+        }
+
+        .rule-subtitle {
+            font-size: 18px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .rule-description {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #3F413E;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #F9F9F9;
+            border-radius: 15px;
+            border-left: 4px solid #E57140;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .example-card {
+            background: #F7F1E5;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .example-card:hover {
+            background: #E57140;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .example-word {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .example-transcription {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .subsections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .subsection-card {
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .subsection-card:hover {
+            border-color: #E57140;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+
+        .subsection-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #E57140, #F7A072);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 20px;
+            color: white;
+        }
+
+        .subsection-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #3F413E;
+            margin-bottom: 15px;
+        }
+
+        .subsection-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .coming-soon {
+            background: #F7F1E5;
+            color: #999;
+        }
+
+        .coming-soon .subsection-icon {
+            background: #D3C9B5;
+        }
+
+        /* Адаптивность для страницы модуля */
+        @media (max-width: 768px) {
+            .module-hero {
+                padding: 60px 0 40px;
+            }
+
+            .module-hero h1 {
+                font-size: 36px;
+            }
+
+            .module-hero p {
+                font-size: 18px;
+            }
+
+            .rule-block {
+                padding: 30px 25px;
+                margin-bottom: 30px;
+            }
+
+            .rule-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .rule-title {
+                font-size: 24px;
+            }
+
+            .rule-description {
+                padding: 15px;
+                font-size: 15px;
+            }
+
+            .examples-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .subsections-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .subsection-card {
+                padding: 25px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .module-hero h1 {
+                font-size: 32px;
+            }
+
+            .rule-block {
+                padding: 25px 20px;
+            }
+
+            .rule-title {
+                font-size: 22px;
+            }
+
+            .examples-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .subsection-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <a href="../../index.html" style="text-decoration: none;">
+                        <div class="site-name">
+                            <span class="read-text">Read</span>
+                            <span class="and-text">and</span>
+                            <span class="play-text">Play</span>
+                        </div>
+                    </a>
+                </div>
+                
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="../../index.html">Главная</a></li>
+                        <li><a href="../../blog.html">Блог</a></li>
+                    </ul>
+                </nav>
+                
+                <button class="mobile-menu-btn">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="module-hero">
+        <div class="container">
+            <h1>Волшебная буква A</h1>
+            <p>Откройте магию английской буквы A! Узнайте, как одна буква может звучать по-разному в разных словах.</p>
+        </div>
+    </section>
+
+    <section class="rules-section">
+        <div class="container">
+            <!-- Правило 1 -->
+            <div class="rule-block">
+                <div class="rule-header">
+                    <div class="rule-icon">😊</div>
+                    <div>
+                        <h2 class="rule-title">Правило 1: "Веселый звук А" [æ]</h2>
+                        <p class="rule-subtitle">В закрытом слоге</p>
+                    </div>
+                </div>
+                <div class="rule-description">
+                    Когда буква A стоит в закрытом слоге (слог заканчивается на согласную), она произносится как короткий звук [æ], похожий на русское "э" с широко открытым ртом.
+                </div>
+                <div class="examples-grid">
+                    <div class="example-card">
+                        <div class="example-word">cat</div>
+                        <div class="example-transcription">[kæt]</div>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-word">hat</div>
+                        <div class="example-transcription">[hæt]</div>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-word">map</div>
+                        <div class="example-transcription">[mæp]</div>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-word">bag</div>
+                        <div class="example-transcription">[bæg]</div>
+                    </div>
+                </div>
+                <div class="subsections-grid">
+                    <div class="subsection-card" onclick="window.location.href='learning-1.html'">
+                        <div class="subsection-icon">📖</div>
+                        <h3 class="subsection-title">Обучение</h3>
+                        <p class="subsection-desc">Интерактивные уроки и объяснения правила</p>
+                    </div>
+                    <div class="subsection-card" onclick="window.location.href='games-rule-1.html'">
+                        <div class="subsection-icon">🎮</div>
+                        <h3 class="subsection-title">Игры</h3>
+                        <p class="subsection-desc">Веселые игры для закрепления правила</p>
+                    </div>
+                    <div class="subsection-card coming-soon">
+                        <div class="subsection-icon">📚</div>
+                        <h3 class="subsection-title">Мои первые книги</h3>
+                        <p class="subsection-desc">Скоро будут доступны</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Правило 2 -->
+            <div class="rule-block">
+                <div class="rule-header">
+                    <div class="rule-icon">🧚</div>
+                    <div>
+                        <h2 class="rule-title">Правило 2: "Сказочный звук А" [eɪ]</h2>
+                        <p class="rule-subtitle">A + немая E</p>
+                    </div>
+                </div>
+                <div class="rule-description">
+                    Когда после буквы A стоит "немая E" на конце слова, буква A произносится как долгий звук [eɪ], похожий на русское "эй".
+                </div>
+                <div class="examples-grid">
+                    <div class="example-card">
+                        <div class="example-word">cake</div>
+                        <div class="example-transcription">[keɪk]</div>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-word">name</div>
+                        <div class="example-transcription">[neɪm]</div>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-word">game</div>
+                        <div class="example-transcription">[geɪm]</div>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-word">lake</div>
+                        <div class="example-transcription">[leɪk]</div>
+                    </div>
+                </div>
+                <div class="subsections-grid">
+                    <div class="subsection-card" onclick="window.location.href='learning-2.html'">
+                        <div class="subsection-icon">📖</div>
+                        <h3 class="subsection-title">Обучение</h3>
+                        <p class="subsection-desc">Интерактивные уроки и объяснения правила</p>
+                    </div>
+                    <div class="subsection-card" onclick="window.location.href='games-rule-2.html'">
+                        <div class="subsection-icon">🎮</div>
+                        <h3 class="subsection-title">Игры</h3>
+                        <p class="subsection-desc">Веселые игры для закрепления правила</p>
+                    </div>
+                    <div class="subsection-card coming-soon">
+                        <div class="subsection-icon">📚</div>
+                        <h3 class="subsection-title">Мои первые книги</h3>
+                        <p class="subsection-desc">Скоро будут доступны</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Правило 3 -->
+            <div class="rule-block">
+                <div class="rule-header">
+                    <div class="rule-icon">😴</div>
+                    <div>
+                        <h2 class="rule-title">Правило 3: "Ленивый звук А" [ə]</h2>
+                        <p class="rule-subtitle">В безударном слоге</p>
+                    </div>
+                </div>
+                <div class="rule-description">
+                    Когда буква A находится в безударном слоге, она произносится как нейтральный звук [ə] (шва), самый короткий и слабый звук в английском языке.
+                </div>
+                <div class="examples-grid">
+                    <div class="example-card">
+                        <div class="example-word">about</div>
+                        <div class="example-transcription">[əˈbaʊt]</div>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-word">sofa</div>
+                        <div class="example-transcription">[ˈsəʊfə]</div>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-word">banana</div>
+                        <div class="example-transcription">[bəˈnɑːnə]</div>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-word">animal</div>
+                        <div class="example-transcription">[ˈænɪməl]</div>
+                    </div>
+                </div>
+                <div class="subsections-grid">
+                    <div class="subsection-card" onclick="window.location.href='learning-3.html'">
+                        <div class="subsection-icon">📖</div>
+                        <h3 class="subsection-title">Обучение</h3>
+                        <p class="subsection-desc">Интерактивные уроки и объяснения правила</p>
+                    </div>
+                    <div class="subsection-card" onclick="window.location.href='games-rule-3.html'">
+                        <div class="subsection-icon">🎮</div>
+                        <h3 class="subsection-title">Игры</h3>
+                        <p class="subsection-desc">Веселые игры для закрепления правила</p>
+                    </div>
+                    <div class="subsection-card coming-soon">
+                        <div class="subsection-icon">📚</div>
+                        <h3 class="subsection-title">Мои первые книги</h3>
+                        <p class="subsection-desc">Скоро будут доступны</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Правило 4 -->
+            <div class="rule-block">
+                <div class="rule-header">
+                    <div class="rule-icon">🎤</div>
+                    <div>
+                        <h2 class="rule-title">Правило 4: "А-певец" [ɑː]</h2>
+                        <p class="rule-subtitle">Перед R или L</p>
+                    </div>
+                </div>
+                <div class="rule-description">
+                    Когда буква A стоит перед R или в некоторых случаях перед L, она произносится как долгий глубокий звук [ɑː], похожий на русское "а" с широко открытым ртом.
+                </div>
+                <div class="examples-grid">
+                    <div class="example-card">
+                        <div class="example-word">car</div>
+                        <div class="example-transcription">[kɑː]</div>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-word">star</div>
+                        <div class="example-transcription">[stɑː]</div>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-word">ball</div>
+                        <div class="example-transcription">[bɔːl]</div>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-word">father</div>
+                        <div class="example-transcription">[ˈfɑːðə]</div>
+                    </div>
+                </div>
+                <div class="subsections-grid">
+                    <div class="subsection-card" onclick="window.location.href='learning-4.html'">
+                        <div class="subsection-icon">📖</div>
+                        <h3 class="subsection-title">Обучение</h3>
+                        <p class="subsection-desc">Интерактивные уроки и объяснения правила</p>
+                    </div>
+                    <div class="subsection-card" onclick="window.location.href='games-rule-4.html'">
+                        <div class="subsection-icon">🎮</div>
+                        <h3 class="subsection-title">Игры</h3>
+                        <p class="subsection-desc">Веселые игры для закрепления правила</p>
+                    </div>
+                    <div class="subsection-card coming-soon">
+                        <div class="subsection-icon">📚</div>
+                        <h3 class="subsection-title">Мои первые книги</h3>
+                        <p class="subsection-desc">Скоро будут доступны</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>Read and Play © 2024 | Тренажер по чтению для детей</p>
+        </div>
+    </footer>
+
+    <script src="../../js/main.js"></script>
+</body>
+</html>
