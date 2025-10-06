@@ -9,7 +9,7 @@ async function loadDictionaryData() {
     try {
         console.log('Загружаем данные словаря Magic E...');
         
-        const response = await fetch('../../data/a-e-words-data.json');
+       const response = await fetch('/read_and_play/data/a-e-words-data.json');
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
