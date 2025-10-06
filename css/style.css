@@ -142,6 +142,7 @@ body {
     flex: 1;
     max-width: 500px;
     height: auto;
+    object-fit: cover; /* Сохраняет пропорции */
     border-radius: 25px;
     transition: transform 0.3s ease;
 }
@@ -995,11 +996,4 @@ body {
     color: #e53e3e;
     font-weight: bold;
     text-shadow: 0 0 10px rgba(229, 62, 62, 0.3);
-}
-/* На мобильных устройствах убираем flex */
-@media (max-width: 768px) {
-    .banner-img {
-        flex: none;
-        max-width: 100%;
-    }
 }
