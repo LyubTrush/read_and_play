@@ -170,11 +170,11 @@ body {
 
 /* Пути к иконкам для кнопок */
 .sound-toggle img {
-    content: url('../../assets/icon/sound-on.png');
+    content: url('../assets/icon/sound-on.png');
 }
 
 .sound-toggle.sound-off img {
-    content: url('../../assets/icon/sound-off.png');
+    content: url('../assets/icon/sound-off.png');
 }
 
 /* Кнопка воспроизведения звука */
@@ -206,7 +206,7 @@ body {
 .sound-button img {
     width: 30px;
     height: 30px;
-    content: url('../../assets/icon/speaker.png');
+    content: url('../assets/icon/speaker.png');
 }
 
 /* Элементы игры */
@@ -218,11 +218,6 @@ body {
 }
 .sound-e {
     color: #E57140;
-    font-weight: bold;
-    text-shadow: 0 0 10px rgba(231, 76, 60, 0.3);
-}
-.sound-a {
-    color: #e74c3c;
     font-weight: bold;
     text-shadow: 0 0 10px rgba(231, 76, 60, 0.3);
 }
@@ -444,15 +439,15 @@ body {
 
 /* Пути к картинкам результатов */
 .result-image img[src*="result-success"] {
-    content: url('../../assets/icon/result-success.png');
+    content: url('../assets/icon/result-success.png');
 }
 
 .result-image img[src*="result-good"] {
-    content: url('../../assets/icon/result-good.png');
+    content: url('../assets/icon/result-good.png');
 }
 
 .result-image img[src*="result-try-again"] {
-    content: url('../../assets/icon/result-try-again.png');
+    content: url('../assets/icon/result-try-again.png');
 }
 
 .result-title {
