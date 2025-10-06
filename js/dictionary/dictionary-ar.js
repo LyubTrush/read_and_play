@@ -9,7 +9,7 @@ async function loadDictionaryData() {
     try {
         console.log('Загружаем данные словаря AR...');
         
-        const response = await fetch('../../data/ar-words-data.json');
+        const response = await fetch('../data/ar-words-data.json');
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
