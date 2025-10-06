@@ -141,11 +141,18 @@ body {
 .banner-img {
     flex: 1;
     max-width: 500px;
+    height: auto;
     object-fit: cover; /* Сохраняет пропорции */
     border-radius: 25px;
     transition: transform 0.3s ease;
 }
 
+/* На десктопе можно оставить flex */
+@media (min-width: 769px) {
+    .banner-img {
+        flex: 1;
+    }
+}
 .banner-img:hover {
     transform: scale(1.02);
 }
