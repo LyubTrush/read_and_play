@@ -996,3 +996,10 @@ body {
     font-weight: bold;
     text-shadow: 0 0 10px rgba(229, 62, 62, 0.3);
 }
+/* На мобильных устройствах убираем flex */
+@media (max-width: 768px) {
+    .banner-img {
+        flex: none;
+        max-width: 100%;
+    }
+}
