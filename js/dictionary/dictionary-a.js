@@ -7,7 +7,7 @@ let currentViewMode = 'single'; // 'single' или 'all'
 // Загрузка данных словаря
 async function loadDictionaryData() {
     try {
-        console.log('Загружаем данные словаря...');
+        console.log ('Загружаем данные словаря...');
         
         // Определяем путь к JSON файлу в зависимости от текущей страницы
         const currentPath = window.location.pathname;
