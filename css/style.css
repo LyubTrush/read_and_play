@@ -141,7 +141,6 @@ body {
 .banner-img {
     flex: 1;
     max-width: 500px;
-    height: auto;
     object-fit: cover; /* Сохраняет пропорции */
     border-radius: 25px;
     transition: transform 0.3s ease;
