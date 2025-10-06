@@ -146,7 +146,7 @@ body {
     transition: transform 0.3s ease;
 }
 
-}
+
 .banner-img:hover {
     transform: scale(1.02);
 }
