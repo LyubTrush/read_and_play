@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read and Play - Тренажер по чтению</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Хедер сайта -->
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <div class="site-name">
+                        <span class="read-text">Read</span>
+                        <span class="and-text">and</span>
+                        <span class="play-text">Play</span>
+                    </div>
+                </div>
+                
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="blog.html">Блог</a></li>
+                    </ul>
+                </nav>
+                
+                <button class="mobile-menu-btn">☰</button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Блок 1: Заголовок с баннером -->
+    <section class="hero-section">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1 class="main-title">
+                    <span class="read-text">Read</span> 
+                    <span class="and-text">and</span> 
+                    <span class="play-text">Play</span>
+                </h1>
+                <p class="subtitle">Интерактивные упражнения для развития навыков чтения у детей</p>
+            </div>
+            <img src="assets/images/banner.png" alt="Дети играют и учатся" class="banner-img">
+        </div>
+    </section>
+    
+    <!-- Блок 2: Подложка с инструкцией -->
+    <section class="instruction-section">
+        <div class="container">
+            <div class="instruction-container">
+                <h2 class="instruction-title">Как пользоваться тренажером?</h2>
+                <p class="instruction-text">
+                    Выберите модуль для тренировки. Начните с первого модуля и последовательно проходите все упражнения.<br>
+                    Каждый модуль содержит интерактивные задания, которые помогут улучшить навыки чтения.
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Пространство между блоками -->
+    <div class="spacing-section"></div>
+    
+    <!-- Блок 3: Модули -->
+    <section class="modules-section">
+        <div class="container">
+            <h2 class="modules-title">Модули для обучения</h2>
+            <div class="modules-grid" id="modulesGrid">
+                <!-- Модули будут добавлены через JavaScript -->
+            </div>
+        </div>
+    </section>
+    
+    <footer class="site-footer">
+        <div class="container">
+            <p>Read and Play © 2024 | Тренажер по чтению для детей</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

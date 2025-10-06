@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обучение: Веселый звук А - Read and Play</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        .learning-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            min-height: 100vh;
+        }
+
+        .page {
+            display: none;
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            min-height: 600px;
+            position: relative;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #E57140;
+            margin-bottom: 30px;
+        }
+
+        .page-text {
+            font-size: 20px;
+            color: #3F413E;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .letter-a {
+            font-size: 120px;
+            color: #E57140;
+            margin: 30px 0;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .sound-icons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .sound-icon {
+            font-size: 50px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .sound-icon:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #E57140;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #d16232;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #AED7D1;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #9bc7c0;
+            transform: translateY(-2px);
+        }
+
+        .btn-sound {
+            background: #B2956D;
+            color: white;
+            padding: 12px 25px;
+            font-size: 16px;
+        }
+
+        /* Страница 2: Как у доктора */
+        .doctor-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .mouth-demo {
+            width: 200px;
+            height: 200px;
+            background: #F7F1E5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mouth {
+            width: 120px;
+            height: 80px;
+            background: #E57140;
+            border-radius: 50%;
+            position: relative;
+            animation: mouthOpen 2s ease-in-out infinite;
+        }
+
+        @keyframes mouthOpen {
+            0%, 100% { height: 20px; }
+            50% { height: 80px; }
+        }
+
+        .record-btn {
+            background: #FF6B6B;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .recording {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Страница 3: Угадай слово */
+        .images-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .image-card {
+            background: #F7F1E5;
+            border-radius: 20px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .image-card:hover {
+            transform: scale(1.05);
+        }
+
+        .image-card.correct {
+            border-color: #4CAF50;
+            background: #E8F5E8;
+        }
+
+        .image-card.wrong {
+            border-color: #FF6B6B;
+            background: #FFEBEE;
+        }
+
+        .card-image {
+            width: 120px;
+            height: 120px;
+            background: #FFFFFF;
+            border-radius: 15px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        .card-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #3F413E;
+        }
+
+        /* Страница 4: Найди пару */
+        .houses-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .house {
+            background: #F7F1E5;
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 200px;
+            border: 3px dashed #B2956D;
+        }
+
+        .house-red {
+            border-color: #E57140;
+        }
+
+        .house-blue {
+            border-color: #AED7D1;
+        }
+
+        .house-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .words-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .word-card {
+            background: #FFFFFF;
+            border: 2px solid #B2956D;
+            border-radius: 15px;
+            padding: 15px;
+            cursor: grab;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .word-card:active {
+            cursor: grabbing;
+        }
+
+        .word-card.dragging {
+            opacity: 0.5;
+        }
+
+        /* Страница 5: Покорми монстра */
+        .monster-game {
+            position: relative;
+            height: 400px;
+            margin: 30px 0;
+        }
+
+        .monster {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 150px;
+            background: #AED7D1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+        }
+
+        .mouth-monster {
+            position: absolute;
+            bottom: 20px;
+            width: 80px;
+            height: 40px;
+            background: #E57140;
+            border-radius: 50%;
+            animation: chew 0.5s ease-in-out infinite;
+        }
+
+        @keyframes chew {
+            0%, 100% { height: 20px; }
+            50% { height: 40px; }
+        }
+
+        .falling-word {
+            position: absolute;
+            top: -50px;
+            background: #FFFFFF;
+            border: 2px solid #B2956D;
+            border-radius: 15px;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .falling-word:hover {
+            transform: scale(1.1);
+        }
+
+        /* Страница 6: Собери слово */
+        .word-builder {
+            margin: 40px 0;
+        }
+
+        .slots-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .letter-slot {
+            width: 60px;
+            height: 80px;
+            background: #F7F1E5;
+            border: 2px dashed #B2956D;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .letters-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .letter-piece {
+            width: 50px;
+            height: 70px;
+            background: #FFFFFF;
+            border: 2px solid #E57140;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: grab;
+            transition: all 0.3s ease;
+        }
+
+        .letter-piece:active {
+            cursor: grabbing;
+        }
+
+        /* Страница 7: Награда */
+        .trophy {
+            font-size: 100px;
+            margin: 40px 0;
+            animation: spin 2s ease-in-out;
+        }
+
+        @keyframes spin {
+            0% { transform: scale(0) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #F7F1E5;
+            border-radius: 5px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #E57140, #F7A072);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .learning-container {
+                padding: 10px;
+            }
+
+            .page {
+                padding: 25px 20px;
+                min-height: 500px;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+
+            .page-text {
+                font-size: 18px;
+            }
+
+            .images-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .houses-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .words-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .monster-game {
+                height: 300px;
+            }
+
+            .letter-a {
+                font-size: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <a href="../../index.html" style="text-decoration: none;">
+                        <div class="site-name">
+                            <span class="read-text">Read</span>
+                            <span class="and-text">and</span>
+                            <span class="play-text">Play</span>
+                        </div>
+                    </a>
+                </div>
+                
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="../../index.html">Главная</a></li>
+                        <li><a href="../magic-letter-a/index.html">Назад к модулю</a></li>
+                    </ul>
+                </nav>
+                
+                <button class="mobile-menu-btn">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="learning-container">
+        <!-- Прогресс бар -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <!-- Страница 1: Знакомство -->
+        <div class="page active" id="page1">
+            <h1 class="page-title">Это Весёлый Звук [æ]!</h1>
+            <div class="letter-a">A</div>
+            <div class="sound-icons">
+                <div class="sound-icon">🍎</div>
+                <div class="sound-icon">🐜</div>
+            </div>
+            <p class="page-text">Буква A говорит [æ] в коротких словах!<br>Этот звук похож на веселое "э-э-э"</p>
+            <div class="buttons-container">
+                <button class="btn btn-sound" onclick="playSound('sound-ae')">🔊 Послушать звук</button>
+                <button class="btn btn-primary" onclick="nextPage()">Дальше</button>
+            </div>
+        </div>
+
+        <!-- Страница 2: Как у доктора -->
+        <div class="page" id="page2">
+            <h1 class="page-title">Как у доктора!</h1>
+            <div class="doctor-container">
+                <div class="mouth-demo">
+                    <div class="mouth"></div>
+                </div>
+                <p class="page-text">Широко открой рот, как у доктора!<br>Скажи [æ-æ-æ]!</p>
+                <div class="buttons-container">
+                    <button class="record-btn" onclick="toggleRecording()">
+                        <span>🎤</span>
+                        <span id="recordText">Записать мой голос</span>
+                    </button>
+                    <button class="btn btn-sound" onclick="playSound('sound-cat')">🔊 Пример: CAT</button>
+                </div>
+            </div>
+            <div class="buttons-container" style="margin-top: 60px;">
+                <button class="btn btn-secondary" onclick="prevPage()">Назад</button>
+                <button class="btn btn-primary" onclick="nextPage()">Дальше</button>
+            </div>
+        </div>
+
+        <!-- Страница 3: Угадай слово -->
+        <div class="page" id="page3">
+            <h1 class="page-title">Угадай слово!</h1>
+            <p class="page-text">Послушай и выбери картинку, где есть наш звук [æ]</p>
+            
+            <div class="images-grid">
+                <div class="image-card" onclick="checkAnswer('cat', this)">
+                    <div class="card-image">🐱</div>
+                    <div class="card-text">CAT</div>
+                </div>
+                <div class="image-card" onclick="checkAnswer('cake', this)">
+                    <div class="card-image">🎂</div>
+                    <div class="card-text">CAKE</div>
+                </div>
+                <div class="image-card" onclick="checkAnswer('hat', this)">
+                    <div class="card-image">🎩</div>
+                    <div class="card-text">HAT</div>
+                </div>
+            </div>
+
+            <div class="buttons-container">
+                <button class="btn btn-sound" onclick="playSound('sound-cat')">🔊 Послушать слово</button>
+                <button class="btn btn-secondary" onclick="prevPage()">Назад</button>
+                <button class="btn btn-primary" onclick="nextPage()" id="nextBtn3" disabled>Дальше</button>
+            </div>
+        </div>
+
+        <!-- Страница 4: Найди пару -->
+        <div class="page" id="page4">
+            <h1 class="page-title">Найди пару!</h1>
+            <p class="page-text">Разложи слова по домикам.<br>Веселый звук [æ] — в красный домик!</p>
+            
+            <div class="houses-container">
+                <div class="house house-red" id="houseRed" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <div class="house-title">[æ] - Веселый звук</div>
+                    <div class="card-image">🐱</div>
+                </div>
+                <div class="house house-blue" id="houseBlue" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <div class="house-title">[eɪ] - Сказочный звук</div>
+                    <div class="card-image">🎂</div>
+                </div>
+            </div>
+
+            <div class="words-container">
+                <div class="word-card" draggable="true" ondragstart="drag(event)" id="word1">CAT</div>
+                <div class="word-card" draggable="true" ondragstart="drag(event)" id="word2">CAKE</div>
+                <div class="word-card" draggable="true" ondragstart="drag(event)" id="word3">HAT</div>
+                <div class="word-card" draggable="true" ondragstart="drag(event)" id="word4">MAKE</div>
+                <div class="word-card" draggable="true" ondragstart="drag(event)" id="word5">PAN</div>
+                <div class="word-card" draggable="true" ondragstart="drag(event)" id="word6">NAME</div>
+            </div>
+
+            <div class="buttons-container" style="margin-top: 40px;">
+                <button class="btn btn-secondary" onclick="prevPage()">Назад</button>
+                <button class="btn btn-primary" onclick="nextPage()" id="nextBtn4" disabled>Дальше</button>
+            </div>
+        </div>
+
+        <!-- Страница 5: Покорми монстра -->
+        <div class="page" id="page5">
+            <h1 class="page-title">Покорми монстра!</h1>
+            <p class="page-text">Корми монстра только словами с [æ]!</p>
+            
+            <div class="monster-game" id="monsterGame">
+                <div class="monster">
+                    😋
+                    <div class="mouth-monster"></div>
+                </div>
+            </div>
+
+            <div class="buttons-container">
+                <button class="btn btn-secondary" onclick="prevPage()">Назад</button>
+                <button class="btn btn-primary" onclick="nextPage()" id="nextBtn5" disabled>Дальше</button>
+            </div>
+        </div>
+
+        <!-- Страница 6: Собери слово -->
+        <div class="page" id="page6">
+            <h1 class="page-title">Собери слово!</h1>
+            <p class="page-text">Собери слово, которое услышишь!</p>
+            
+            <div class="word-builder">
+                <div class="slots-container" id="wordSlots">
+                    <div class="letter-slot"></div>
+                    <div class="letter-slot"></div>
+                    <div class="letter-slot"></div>
+                </div>
+                
+                <div class="letters-container" id="lettersContainer">
+                    <div class="letter-piece" draggable="true" ondragstart="dragLetter(event)">M</div>
+                    <div class="letter-piece" draggable="true" ondragstart="dragLetter(event)">A</div>
+                    <div class="letter-piece" draggable="true" ondragstart="dragLetter(event)">N</div>
+                    <div class="letter-piece" draggable="true" ondragstart="dragLetter(event)">T</div>
+                    <div class="letter-piece" draggable="true" ondragstart="dragLetter(event)">P</div>
+                    <div class="letter-piece" draggable="true" ondragstart="dragLetter(event)">E</div>
+                </div>
+            </div>
+
+            <div class="buttons-container" style="margin-top: 40px;">
+                <button class="btn btn-sound" onclick="playSound('sound-man')">🔊 Послушать слово</button>
+                <button class="btn" onclick="checkWord()">Проверить</button>
+                <button class="btn btn-secondary" onclick="prevPage()">Назад</button>
+                <button class="btn btn-primary" onclick="nextPage()" id="nextBtn6" disabled>Дальше</button>
+            </div>
+        </div>
+
+        <!-- Страница 7: Награда -->
+        <div class="page" id="page7">
+            <div class="trophy">🏆</div>
+            <h1 class="page-title">Молодец!</h1>
+            <p class="page-text">Ты отлично справился с Весёлым звуком [æ]!</p>
+            
+            <div class="buttons-container">
+                <button class="btn btn-secondary" onclick="restartLearning()">Повторить</button>
+                <button class="btn btn-primary" onclick="goToNextRule()">Следующее правило</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="learning-script.js"></script>
+</body>
+</html>

@@ -1,0 +1,555 @@
+/* Стили для словаря в стиле игр */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #C2E1DB, #E8F4F1);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.dictionary-container {
+    width: 100%;
+    max-width: 900px;
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Компактный header */
+.dictionary-header {
+    padding: 20px 40px 10px;
+    text-align: center;
+    background: #FFF5F0;
+    border-bottom: 3px solid #F7F1E5;
+    flex-shrink: 0;
+}
+
+.dictionary-title {
+    font-size: 30px;
+    font-weight: 700;
+    color: #E57140;
+    margin-bottom: 10px;
+}
+
+.dictionary-subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+/* Навигация по группам */
+.groups-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.group-button {
+    background: #F7F1E5;
+    color: #3F413E;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 100px;
+}
+
+.group-button:hover {
+    transform: translateY(-2px);
+    border-color: #AED7D1;
+}
+
+.group-button.active {
+    background: #E57140;
+    color: #FFFFFF;
+    border-color: #E57140;
+}
+
+/* Режимы просмотра */
+.view-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.view-button {
+    background: #F7F1E5;
+    color: #3F413E;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    padding: 12px 25px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 160px;
+}
+
+.view-button:hover {
+    transform: translateY(-2px);
+    border-color: #AED7D1;
+}
+
+.view-button.active {
+    background: #E57140;
+    color: #FFFFFF;
+    border-color: #E57140;
+}
+
+/* Основное содержимое */
+.dictionary-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 40px;
+}
+
+/* Режим одной карточки - фиксированная высота */
+.single-card-view {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    max-height: 400px;
+    padding: 10px 10px;
+}
+
+.word-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 25px;
+}
+
+.nav-word-button {
+    background: #E57140;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(229, 113, 64, 0.3);
+}
+
+.nav-word-button:hover:not(:disabled) {
+    background: #d16232;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(229, 113, 64, 0.4);
+}
+
+.nav-word-button:disabled {
+    background: #A0AEC0;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Карточка слова - увеличенная */
+.word-card-single {
+    background: #FFFFFF;
+    border: 3px solid #F7F1E5;
+    border-radius: 25px;
+    padding: 25px 50px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    gap: 8px;
+    max-width: 450px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.word-image {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 10px;
+    border-radius: 20px;
+    background: #F7F1E5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #E8DFD1;
+    overflow: hidden;
+}
+
+.word-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.fallback-emoji {
+    font-size: 80px;
+}
+
+.word-english {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #3F413E;
+    margin-bottom: 12px;
+    line-height: 1.2;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.word-transcription {
+    font-size: 1.1rem;
+    color: #E57140;
+    font-weight: 600;
+    margin-bottom: 12px;
+    font-style: italic;
+}
+
+.word-russian {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 12px;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.sound-button {
+    background: #E57140;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 25px;
+    padding: 15px 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 auto;
+    min-width: 180px;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(229, 113, 64, 0.3);
+}
+
+.sound-button:hover {
+    background: #d16232;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(229, 113, 64, 0.4);
+}
+
+.sound-button img {
+    width: 22px;
+    height: 22px;
+}
+
+/* Режим всех карточек - адаптивная высота */
+.all-cards-view {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    min-height: 400px;
+}
+
+.words-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    padding: 15px;
+}
+
+.word-card-grid {
+    background: #FFFFFF;
+    border: 3px solid #F7F1E5;
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.word-card-grid:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.word-card-grid .word-image {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 20px;
+}
+
+.word-card-grid .word-english {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    min-height: 50px;
+}
+
+.word-card-grid .word-transcription {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.word-card-grid .word-russian {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+}
+
+.word-card-grid .sound-button {
+    padding: 12px 25px;
+    font-size: 14px;
+    min-width: 160px;
+}
+
+/* Нижние контролы */
+.dictionary-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px 25px;
+    background: #F7F1E5;
+    border-top: 3px solid #E8DFD1;
+}
+
+.back-button {
+    background: #AED7D1;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 14px 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.back-button:hover {
+    background: #9bc7c0;
+    transform: translateY(-2px);
+}
+
+/* Стиль для выделения буквы A */
+.sound-a {
+    color: #E57140;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(229, 113, 64, 0.3);
+}
+
+
+/* Стиль для выделения немой E */
+.sound-e {
+  color: #E57140;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(229, 113, 64, 0.3);
+}
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.word-card-single,
+.word-card-grid {
+    animation: fadeIn 0.3s ease forwards;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .dictionary-container {
+        margin: 10px;
+    }
+    
+    .dictionary-header {
+        padding: 20px 25px 15px;
+    }
+    
+    .dictionary-title {
+        font-size: 28px;
+    }
+    
+    .dictionary-subtitle {
+        font-size: 14px;
+    }
+    
+    .groups-navigation {
+        gap: 8px;
+    }
+    
+    .group-button {
+        padding: 8px 15px;
+        font-size: 13px;
+        min-width: 80px;
+    }
+    
+    .view-controls {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .view-button {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .dictionary-content {
+        padding: 20px 25px;
+    }
+    
+    /* Адаптив для режима одной карточки */
+    .single-card-view {
+        min-height: 400px;
+        max-height: 500px;
+    }
+    
+    .word-navigation {
+        gap: 20px;
+    }
+    
+    .nav-word-button {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+    
+    .word-card-single {
+        padding: 25px;
+        max-width: 380px;
+    }
+    
+    .word-image {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .fallback-emoji {
+        font-size: 70px;
+    }
+    
+    .word-english {
+        font-size: 2.2rem;
+    }
+    
+    /* Адаптив для режима всех карточек */
+    .all-cards-view {
+        min-height: 300px;
+    }
+    
+    .words-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .word-card-grid {
+        padding: 25px;
+    }
+    
+    .dictionary-controls {
+        padding: 20px 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dictionary-title {
+        font-size: 24px;
+    }
+    
+    .group-button {
+        padding: 6px 12px;
+        font-size: 12px;
+        min-width: 70px;
+    }
+    
+    /* Адаптив для режима одной карточки */
+    .single-card-view {
+        min-height: 350px;
+        max-height: 450px;
+    }
+    
+    .word-card-single {
+        padding: 20px;
+        max-width: 320px;
+    }
+    
+    .word-image {
+        width: 130px;
+        height: 130px;
+    }
+    
+    .fallback-emoji {
+        font-size: 60px;
+    }
+    
+    .word-english {
+        font-size: 2rem;
+    }
+    
+    .word-transcription {
+        font-size: 1.2rem;
+    }
+    
+    .word-russian {
+        font-size: 1.3rem;
+    }
+    
+    .sound-button {
+        padding: 12px 25px;
+        font-size: 14px;
+    }
+    
+    .nav-word-button {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+    
+    /* Адаптив для режима всех карточек */
+    .all-cards-view {
+        min-height: 250px;
+    }
+    
+    .word-card-grid .word-image {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .word-card-grid .word-english {
+        font-size: 1.6rem;
+    }
+}

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игры: А-певец [ɑː] - Read and Play</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="../../css/games-template.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <a href="../../index.html" style="text-decoration: none;">
+                        <div class="site-name">
+                            <span class="read-text">Read</span>
+                            <span class="and-text">and</span>
+                            <span class="play-text">Play</span>
+                        </div>
+                    </a>
+                </div>
+                
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="../../index.html">Главная</a></li>
+                        <li><a href="index.html">Назад к модулю</a></li>
+                    </ul>
+                </nav>
+                
+                <button class="mobile-menu-btn">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="games-container">
+        <button class="back-button" onclick="window.location.href='learning-4.html'">
+            ← Пройти обучение
+        </button>
+
+        <div class="header-section">
+            <div class="games-hero">
+                <h1 class="games-title">Игры с А-певцом [ɑː]</h1>
+                <p class="games-subtitle">Игры для правила A перед R или L! Используй стрелки для навигации</p>
+            </div>
+        </div>
+
+        <div class="carousel-container">
+            <div class="carousel-track" id="carouselTrack">
+                <!-- Карточки будут добавлены через JavaScript -->
+            </div>
+
+            <div class="carousel-arrows">
+                <button class="arrow" onclick="prevGame()">←</button>
+                <button class="arrow" onclick="nextGame()">→</button>
+            </div>
+        </div>
+
+        <div class="carousel-nav" id="carouselNav"></div>
+    </div>
+
+    <script src="../../js/games-carousel.js"></script>
+    <script>
+        // Конфигурация для Правила 4 - А-певец [ɑː]
+        const GAMES_CONFIG = {
+            title: "Игры с А-певцом [ɑː]",
+            subtitle: "Игры для правила A перед R или L! Используй стрелки для навигации",
+            backLink: "../index.html",
+            games: [
+                {
+                    type: "dictionary",
+                    title: "Словарь раздела",
+                    description: "Изучи все слова с звуком [ɑː] перед R или L! Послушай произношение и перевод.",
+                    image: "../../assets/images/games/dictionary.png",
+                    link: "../../dictionary/dictionary-ar.html"
+                },
+                {
+                    type: "game",
+                    title: "Найди картинку",
+                    description: "Прочитай слово и найди правильную картинку! Слова с звуком [ɑː] перед R или L.",
+                    image: "../../assets/images/games/find-picture.png",
+                    link: "../../games/game-find-picture/game-find-picture-ar.html"
+                },
+                {
+                    type: "game", 
+                    title: "Найди слово",
+                    description: "Среди множества букв найди слова с звуком [ɑː] перед R или L! Тренируй правописание.",
+                    image: "../../assets/images/games/find-word.png",
+                    link: "../../games/game-find-word/game-find-word-ar.html"
+                },
+                {
+                    type: "game",
+                    title: "Покорми кота",
+                    description: "Корми котика только словами с звуком [ɑː] перед R или L! Веселая игра на скорость.",
+                    image: "../../assets/images/games/feed-cat.png",
+                    link: "game-feed-cat-rule4.html"
+                },
+                {
+                    type: "game",
+                    title: "Составь пары",
+                    description: "Соедини картинки с правильными словами! Укрепляй связь между образом и написанием.",
+                    image: "../../assets/images/games/make-pairs.png",
+                    link: "game-make-pairs-rule4.html"
+                },
+                {
+                    type: "game",
+                    title: "Составь слово",
+                    description: "Из букв собери слово, которое услышишь! Развивай фонематический слух.",
+                    image: "../../assets/images/games/build-word.png",
+                    link: "game-build-word-rule4.html"
+                },
+                {
+                    type: "game",
+                    title: "Веселый тест",
+                    description: "Ответь на вопросы про звук [ɑː] перед R или L! Проверь свои знания в увлекательной викторине.",
+                    image: "../../assets/images/games/fun-test.png",
+                    link: "game-fun-test-rule4.html"
+                },
+                {
+                    type: "game",
+                    title: "Филворд: найди слова",
+                    description: "В сетке букв найди все слова с звуком [ɑː] перед R или L! Тренировка внимания и словарного запаса.",
+                    image: "../../assets/images/games/word-search.png",
+                    link: "game-word-search-rule4.html"
+                }
+            ]
+        };
+
+        // Создание карточек игр
+        function createGameCards() {
+            const track = document.getElementById('carouselTrack');
+            if (!track) return;
+            
+            track.innerHTML = '';
+
+            GAMES_CONFIG.games.forEach((game, index) => {
+                const card = document.createElement('div');
+                card.className = `game-card ${game.type === 'dictionary' ? 'dictionary-card' : ''}`;
+                
+                card.innerHTML = `
+                    <div class="game-image">
+                        <img src="${game.image}" alt="${game.title}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <div class="fallback-emoji" style="display: none; font-size: 40px;">${game.type === 'dictionary' ? '📚' : '🎮'}</div>
+                    </div>
+                    <h2 class="game-title">${game.title}</h2>
+                    <p class="game-description">${game.description}</p>
+                    <button class="game-button" onclick="startGame('${game.link}')">
+                        ${game.type === 'dictionary' ? 'Изучить слова' : 'Играть сейчас'}
+                    </button>
+                `;
+                
+                track.appendChild(card);
+            });
+        }
+
+        // Запуск игры - переход по ссылке
+        function startGame(gameLink) {
+            // Временно показываем alert, пока игры не созданы
+           // if (gameLink.includes('dictionary')) {
+          //      alert('Словарь раздела скоро будет доступен!');
+         //   } else {
+          //      const gameName = gameLink.split('-').slice(1).join(' ').replace('.html', '') || 'игра';
+          //      alert(`Игра "${gameName}" скоро будет доступна!`);
+         //   }
+            // Когда игры будут готовы, раскомментировать:
+             window.location.href = gameLink;
+        }
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            createGameCards();
+            initGamesCarousel(GAMES_CONFIG.games.length);
+            
+            // Устанавливаем заголовки
+            const gamesTitle = document.querySelector('.games-title');
+            const gamesSubtitle = document.querySelector('.games-subtitle');
+            
+            if (gamesTitle) gamesTitle.textContent = GAMES_CONFIG.title;
+            if (gamesSubtitle) gamesSubtitle.textContent = GAMES_CONFIG.subtitle;
+        });
+
+        // Делаем функции доступными глобально
+        window.nextGame = nextGame;
+        window.prevGame = prevGame;
+    </script>
+</body>
+</html>

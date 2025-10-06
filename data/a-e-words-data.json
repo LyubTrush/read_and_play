@@ -1,0 +1,50 @@
+{
+    "levels": [
+        {
+            "name": "-ake слова",
+            "words": [
+                {"word": "CAKE", "lowercase": "cake", "image": "../../assets/images/words/cake.png", "transcription": "/keɪk/", "translation": "торт", "variants": ["cake", "lake", "snake", "bake"]},
+                {"word": "LAKE", "lowercase": "lake", "image": "../../assets/images/words/lake.png", "transcription": "/leɪk/", "translation": "озеро", "variants": ["lake", "cake", "snake", "wake"]},
+                {"word": "SNAKE", "lowercase": "snake", "image": "../../assets/images/words/snake.png", "transcription": "/sneɪk/", "translation": "змея", "variants": ["snake", "cake", "lake", "rake"]},
+                {"word": "RAKE", "lowercase": "rake", "image": "../../assets/images/words/rake.png", "transcription": "/reɪk/", "translation": "грабли", "variants": ["rake", "cake", "lake", "bake"]},
+                {"word": "BAKE", "lowercase": "bake", "image": "../../assets/images/words/bake.png", "transcription": "/beɪk/", "translation": "выпечка", "variants": ["bake", "cake", "lake", "wake"]},
+                {"word": "WAKE", "lowercase": "wake", "image": "../../assets/images/words/wake.png", "transcription": "/weɪk/", "translation": "пробуждение", "variants": ["wake", "cake", "lake", "bake"]}
+            ]
+        },
+        {
+            "name": "-ame и -ane слова", 
+            "words": [
+                {"word": "NAME", "lowercase": "name", "image": "../../assets/images/words/name.png", "transcription": "/neɪm/", "translation": "имя", "variants": ["name", "game", "flame", "plane"]},
+                {"word": "GAME", "lowercase": "game", "image": "../../assets/images/words/game.png", "transcription": "/ɡeɪm/", "translation": "игра", "variants": ["game", "name", "flame", "crane"]},
+                {"word": "FLAME", "lowercase": "flame", "image": "../../assets/images/words/flame.png", "transcription": "/fleɪm/", "translation": "пламя", "variants": ["flame", "name", "game", "plane"]},
+                {"word": "PLANE", "lowercase": "plane", "image": "../../assets/images/words/plane.png", "transcription": "/pleɪn/", "translation": "самолет", "variants": ["plane", "name", "game", "crane"]},
+                {"word": "CRANE", "lowercase": "crane", "image": "../../assets/images/words/crane.png", "transcription": "/kreɪn/", "translation": "журавль", "variants": ["crane", "name", "game", "plane"]}
+            ]
+        },
+        {
+            "name": "-ape и -ate слова",
+            "words": [
+                {"word": "GRAPE", "lowercase": "grape", "image": "../../assets/images/words/grape.png", "transcription": "/ɡreɪp/", "translation": "виноград", "variants": ["grape", "cape", "tape", "shape"]},
+                {"word": "CAPE", "lowercase": "cape", "image": "../../assets/images/words/cape.png", "transcription": "/keɪp/", "translation": "плащ", "variants": ["cape", "grape", "tape", "gate"]},
+                {"word": "TAPE", "lowercase": "tape", "image": "../../assets/images/words/tape.png", "transcription": "/teɪp/", "translation": "лента", "variants": ["tape", "grape", "cape", "plate"]},
+                {"word": "SHAPE", "lowercase": "shape", "image": "../../assets/images/words/shape.png", "transcription": "/ʃeɪp/", "translation": "форма", "variants": ["shape", "grape", "cape", "skate"]},
+                {"word": "GATE", "lowercase": "gate", "image": "../../assets/images/words/gate.png", "transcription": "/ɡeɪt/", "translation": "ворота", "variants": ["gate", "plate", "skate", "date"]},
+                {"word": "PLATE", "lowercase": "plate", "image": "../../assets/images/words/plate.png", "transcription": "/pleɪt/", "translation": "тарелка", "variants": ["plate", "gate", "skate", "date"]},
+                {"word": "SKATE", "lowercase": "skate", "image": "../../assets/images/words/skate.png", "transcription": "/skeɪt/", "translation": "конек", "variants": ["skate", "gate", "plate", "date"]},
+                {"word": "DATE", "lowercase": "date", "image": "../../assets/images/words/date.png", "transcription": "/deɪt/", "translation": "дата", "variants": ["date", "gate", "plate", "skate"]}
+            ]
+        },
+        {
+            "name": "-ave и -ace слова", 
+            "words": [
+                {"word": "WAVE", "lowercase": "wave", "image": "../../assets/images/words/wave.png", "transcription": "/weɪv/", "translation": "волна", "variants": ["wave", "cave", "save", "face"]},
+                {"word": "CAVE", "lowercase": "cave", "image": "../../assets/images/words/cave.png", "transcription": "/keɪv/", "translation": "пещера", "variants": ["cave", "wave", "save", "lace"]},
+                {"word": "SAVE", "lowercase": "save", "image": "../../assets/images/words/save.png", "transcription": "/seɪv/", "translation": "спасение", "variants": ["save", "wave", "cave", "race"]},
+                {"word": "FACE", "lowercase": "face", "image": "../../assets/images/words/face.png", "transcription": "/feɪs/", "translation": "лицо", "variants": ["face", "lace", "race", "space"]},
+                {"word": "LACE", "lowercase": "lace", "image": "../../assets/images/words/lace.png", "transcription": "/leɪs/", "translation": "шнурок", "variants": ["lace", "face", "race", "space"]},
+                {"word": "RACE", "lowercase": "race", "image": "../../assets/images/words/race.png", "transcription": "/reɪs/", "translation": "гонка", "variants": ["race", "face", "lace", "space"]},
+                {"word": "SPACE", "lowercase": "space", "image": "../../assets/images/words/space.png", "transcription": "/speɪs/", "translation": "космос", "variants": ["space", "face", "lace", "race"]}
+            ]
+        }
+    ]
+}

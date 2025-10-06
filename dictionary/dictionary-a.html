@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Словарь - Read and Play</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/dictionary.css">
+</head>
+<body>
+    <div class="dictionary-container">
+        <div class="dictionary-header">
+            <h1 class="dictionary-title">Словарь раздела</h1>
+            
+            <!-- Навигация по группам -->
+            <div class="groups-navigation" id="groupsNavigation">
+                <!-- Кнопки групп будут добавлены через JavaScript -->
+            </div>
+            
+            <!-- Режимы просмотра -->
+            <div class="view-controls">
+                <button class="view-button active" onclick="setViewMode('single')">
+                    Листать по одной
+                </button>
+                <button class="view-button" onclick="setViewMode('all')">
+                    Смотреть все слова
+                </button>
+            </div>
+        </div>
+
+        <div class="dictionary-content">
+            <!-- Режим одной карточки -->
+            <div class="single-card-view" id="singleCardView">
+                <div class="word-navigation">
+                    <button class="nav-word-button" onclick="prevWord()">
+                        ←
+                    </button>
+                    <div id="currentWordDisplay">
+                        <!-- Текущее слово будет здесь -->
+                    </div>
+                    <button class="nav-word-button" onclick="nextWord()">
+                        →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Режим всех карточек -->
+            <div class="all-cards-view" id="allCardsView">
+                <div class="words-grid" id="wordsGrid">
+                    <!-- Все слова будут здесь -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижние контролы -->
+        <div class="dictionary-controls">
+            <button class="back-button" onclick="window.location.href='../modules/magic-letter-a/games-rule-1.html'">
+                ← Назад к играм
+            </button>
+        </div>
+    </div>
+
+    <script src="../../js/dictionary/dictionary-a.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{
+    "levels": [
+        {
+            "name": "-at, -ad",
+            "words": [
+                {"word": "RAT", "lowercase": "rat", "image": "../../assets/images/words/rat.png", "transcription": "/ræt/", "translation": "крыса", "variants": ["rat", "cat", "bat", "hat"]},
+                {"word": "MAT", "lowercase": "mat", "image": "../../assets/images/words/mat.png", "transcription": "/mæt/", "translation": "коврик", "variants": ["mat", "hat", "cat", "rat"]},
+                {"word": "HAT", "lowercase": "hat", "image": "../../assets/images/words/hat.png", "transcription": "/hæt/", "translation": "шляпа", "variants": ["hat", "rat", "bat", "mat"]},
+                {"word": "FAT", "lowercase": "fat", "image": "../../assets/images/words/fat.png", "transcription": "/fæt/", "translation": "толстый", "variants": ["fat", "cat", "rat", "hat"]},
+                {"word": "CAT", "lowercase": "cat", "image": "../../assets/images/words/cat.png", "transcription": "/kæt/", "translation": "кот", "variants": ["cat", "hat", "bat", "rat"]},
+                {"word": "BAT", "lowercase": "bat", "image": "../../assets/images/words/bat.png", "transcription": "/bæt/", "translation": "летучая мышь", "variants": ["bat", "rat", "cat", "mat"]},
+                {"word": "DAD", "lowercase": "dad", "image": "../../assets/images/words/dad.png", "transcription": "/dæd/", "translation": "папа", "variants": ["dad", "bad", "sad", "glad"]},
+                {"word": "BAD", "lowercase": "bad", "image": "../../assets/images/words/bad.png", "transcription": "/bæd/", "translation": "плохой", "variants": ["bad", "dad", "sad", "glad"]},
+                {"word": "SAD", "lowercase": "sad", "image": "../../assets/images/words/sad.png", "transcription": "/sæd/", "translation": "грустный", "variants": ["sad", "bad", "dad", "glad"]},
+                {"word": "GLAD", "lowercase": "glad", "image": "../../assets/images/words/glad.png", "transcription": "/glæd/", "translation": "радостный", "variants": ["glad", "sad", "bad", "dad"]}
+            ]
+        },
+        {
+            "name": "+ -ag, -ab", 
+            "words": [
+                {"word": "BAG", "lowercase": "bag", "image": "../../assets/images/words/bag.png", "transcription": "/bæg/", "translation": "сумка", "variants": ["bag", "cab", "tag", "dad"]},
+                {"word": "MAG", "lowercase": "mag", "image": "../../assets/images/words/mag.png", "transcription": "/mæg/", "translation": "журнал", "variants": ["mag", "bag", "sad", "tag"]},
+                {"word": "FLAG", "lowercase": "flag", "image": "../../assets/images/words/flag.png", "transcription": "/flæg/", "translation": "флаг", "variants": ["flag", "bag", "mag", "dragon"]},
+                {"word": "DRAGON", "lowercase": "dragon", "image": "../../assets/images/words/dragon.png", "transcription": "/drægən/", "translation": "дракон", "variants": ["bag", "cat", "tag", "bad"]},
+                {"word": "CRAB", "lowercase": "crab", "image": "../../assets/images/words/crab.png", "transcription": "/kræb/", "translation": "краб", "variants": ["crab", "bat", "dragon", "sad"]},
+                {"word": "CAB", "lowercase": "cab", "image": "../../assets/images/words/cab.png", "transcription": "/kæb/", "translation": "такси", "variants": ["cab", "tag", "fat", "hat"]}
+            ]
+        },
+        {
+            "name": "+ -an, -and",
+            "words": [
+                {"word": "PAN", "lowercase": "pan", "image": "../../assets/images/words/pan.png", "transcription": "/pæn/", "translation": "сковорода", "variants": ["pan", "can", "man", "fan"]},
+                {"word": "HAND", "lowercase": "hand", "image": "../../assets/images/words/hand.png", "transcription": "/hænd/", "translation": "рука", "variants": ["hand", "land", "sand", "band"]},
+                {"word": "LAND", "lowercase": "land", "image": "../../assets/images/words/land.png", "transcription": "/lænd/", "translation": "земля", "variants": ["land", "sand", "hand", "band"]},
+                {"word": "SAND", "lowercase": "sand", "image": "../../assets/images/words/sand.png", "transcription": "/sænd/", "translation": "песок", "variants": ["sand", "hand", "land", "band"]}
+            ]
+        },
+        {
+            "name": "+ -am, -ck", 
+            "words": [
+                {"word": "HAM", "lowercase": "ham", "image": "../../assets/images/words/ham.png", "transcription": "/hæm/", "translation": "ветчина", "variants": ["ham", "jam", "ram", "dam"]},
+                {"word": "JAM", "lowercase": "jam", "image": "../../assets/images/words/jam.png", "transcription": "/dʒæm/", "translation": "варенье", "variants": ["jam", "ham", "ram", "dam"]},
+                {"word": "LAMP", "lowercase": "lamp", "image": "../../assets/images/words/lamp.png", "transcription": "/læmp/", "translation": "лампа", "variants": ["lamp", "camp", "damp", "ramp"]},
+                {"word": "BLACK", "lowercase": "black", "image": "../../assets/images/words/black.png", "transcription": "/blæk/", "translation": "черный", "variants": ["black", "back", "sack", "pack"]},
+                {"word": "BACK", "lowercase": "back", "image": "../../assets/images/words/back.png", "transcription": "/bæk/", "translation": "спина", "variants": ["back", "sack", "pack", "rack"]},
+                {"word": "SNACK", "lowercase": "snack", "image": "../../assets/images/words/snack.png", "transcription": "/snæk/", "translation": "перекус", "variants": ["snack", "black", "back", "track"]}
+            ]
+        }
+    ]
+}

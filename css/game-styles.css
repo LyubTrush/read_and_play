@@ -1,0 +1,796 @@
+/* games-common.css - Общие стили для всех игр */
+
+/* Базовые стили */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #C2E1DB, #E8F4F1);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Контейнер игры */
+.game-container {
+    width: 100%;
+    max-width: 900px;
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Экран выбора уровня */
+.level-select-screen {
+    padding: 40px;
+    text-align: center;
+}
+
+.game-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #E57140;
+    margin-bottom: 10px;
+}
+
+.game-subtitle {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+.levels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.level-card {
+    background: #F7F1E5;
+    border-radius: 20px;
+    padding: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 3px solid transparent;
+}
+
+.level-card:hover {
+    transform: translateY(-5px);
+    border-color: #E57140;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.level-number {
+    font-size: 24px;
+    font-weight: 700;
+    color: #E57140;
+    margin-bottom: 10px;
+}
+
+.level-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #3F413E;
+    margin-bottom: 15px;
+}
+
+.level-words {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+}
+
+/* Кнопки */
+.back-button {
+    background: #AED7D1;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background: #9bc7c0;
+    transform: translateY(-2px);
+}
+
+.menu-button-bottom {
+    background: #AED7D1;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 14px 35px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.menu-button-bottom:hover {
+    background: #9bc7c0;
+    transform: translateY(-2px);
+}
+
+/* Игровой экран */
+.game-screen {
+    display: none;
+    padding: 30px;
+    text-align: center;
+}
+
+.game-header {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+/* Кнопка звука */
+.sound-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #F7F1E5;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #3F413E;
+}
+
+.sound-toggle:hover {
+    background: #E57140;
+    color: white;
+}
+
+.sound-toggle img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Пути к иконкам для кнопок */
+.sound-toggle img {
+    content: url('../../assets/icon/sound-on.png');
+}
+
+.sound-toggle.sound-off img {
+    content: url('../../assets/icon/sound-off.png');
+}
+
+/* Кнопка воспроизведения звука */
+.sound-button {
+    background: #F7F1E5;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(197, 193, 192, 0.3);
+    padding: 0;
+}
+
+.sound-button:hover {
+    background: #C2E1DB;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(180, 178, 177, 0.4);
+}
+
+.sound-button:active {
+    transform: scale(0.95);
+}
+
+.sound-button img {
+    width: 30px;
+    height: 30px;
+    content: url('../../assets/icon/speaker.png');
+}
+
+/* Элементы игры */
+
+.sound-ar {
+    color: #e74c3c;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(231, 76, 60, 0.3);
+}
+.sound-e {
+    color: #E57140;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(231, 76, 60, 0.3);
+}
+.sound-a {
+    color: #e74c3c;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(231, 76, 60, 0.3);
+}
+
+
+.instruction {
+    font-size: 22px;
+    font-weight: 700;
+    color: #E57140;
+    margin-bottom: 20px;
+    padding: 12px 25px;
+    background: #FFF5F0;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.level-info {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.word-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.current-word {
+    font-size: 52px;
+    font-weight: 700;
+    color: #3F413E;
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sound-a {
+    color: #E57140;
+    text-shadow: 0 2px 4px rgba(229, 113, 64, 0.3);
+}
+
+/* Прогресс-бар */
+.progress-container {
+    margin-bottom: 25px;
+    padding: 0 10px;
+}
+
+.progress-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+.progress-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #F7F1E5;
+    border: 2px solid #D3C9B5;
+    transition: all 0.3s ease;
+}
+
+.progress-dot.correct {
+    background: #4CAF50;
+    border-color: #4CAF50;
+    transform: scale(1.1);
+}
+
+.progress-dot.wrong {
+    background: #FF6B6B;
+    border-color: #FF6B6B;
+    transform: scale(1.1);
+}
+
+.progress-dot.current {
+    border-color: #E57140;
+    background: #E57140;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Сетка картинок */
+.images-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+@media (min-width: 768px) {
+    .images-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.image-card {
+    background: #F7F1E5;
+    border-radius: 20px;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 3px solid transparent;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+    overflow: hidden;
+}
+
+.image-card:hover {
+    transform: scale(1.05);
+    border-color: #AED7D1;
+}
+
+.image-card.correct {
+    border-color: #4CAF50;
+    background: #E8F5E8;
+}
+
+.image-card.wrong {
+    border-color: #FF6B6B;
+    background: #FFEBEE;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.fallback-emoji {
+    font-size: 50px;
+}
+
+/* Окно результатов */
+.result-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.result-modal {
+    background: white;
+    border-radius: 25px;
+    padding: 40px;
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-button:hover {
+    background: #F7F1E5;
+}
+
+.result-image {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.result-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Пути к картинкам результатов */
+.result-image img[src*="result-success"] {
+    content: url('../../assets/icon/result-success.png');
+}
+
+.result-image img[src*="result-good"] {
+    content: url('../../assets/icon/result-good.png');
+}
+
+.result-image img[src*="result-try-again"] {
+    content: url('../../assets/icon/result-try-again.png');
+}
+
+.result-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #3F413E;
+    margin-bottom: 15px;
+}
+
+.result-stats {
+    font-size: 20px;
+    color: #666;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.result-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.result-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-retry {
+    background: #AED7D1;
+    color: white;
+}
+
+.btn-next {
+    background: #E57140;
+    color: white;
+}
+
+.btn-menu {
+    background: #AED7D1;
+    color: white;
+}
+
+.btn-retry:hover, .btn-next:hover, .btn-menu:hover {
+    transform: translateY(-2px);
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.result-modal {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .game-container {
+        margin: 10px;
+    }
+
+    .level-select-screen, .game-screen {
+        padding: 25px 20px;
+    }
+
+    .game-title {
+        font-size: 28px;
+    }
+
+    .game-subtitle {
+        font-size: 16px;
+    }
+
+    .instruction {
+        font-size: 18px;
+        padding: 10px 20px;
+    }
+
+    .current-word {
+        font-size: 40px;
+    }
+
+    .sound-button {
+        width: 50px;
+        height: 50px;
+    }
+
+    .sound-button img {
+        width: 25px;
+        height: 25px;
+    }
+
+    .levels-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .image-card {
+        min-height: 140px;
+    }
+
+    .fallback-emoji {
+        font-size: 35px;
+    }
+
+    .result-modal {
+        padding: 30px 25px;
+    }
+
+    .progress-dot {
+        width: 10px;
+        height: 10px;
+    }
+
+    .word-container {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .images-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .image-card {
+        min-height: 120px;
+    }
+
+    .fallback-emoji {
+        font-size: 30px;
+    }
+
+    .result-buttons {
+        flex-direction: column;
+    }
+
+    .instruction {
+        font-size: 16px;
+    }
+
+    .current-word {
+        font-size: 36px;
+    }
+
+    .sound-button {
+        width: 45px;
+        height: 45px;
+    }
+
+    .sound-button img {
+        width: 22px;
+        height: 22px;
+    }
+
+    .menu-button-bottom {
+        padding: 12px 25px;
+        font-size: 14px;
+    }
+
+    .progress-dots {
+        gap: 4px;
+    }
+
+    .progress-dot {
+        width: 8px;
+        height: 8px;
+    }
+
+    .word-container {
+        gap: 15px;
+    }
+
+    .sound-toggle {
+        position: static;
+        margin-bottom: 15px;
+        align-self: center;
+    }
+}
+/* Стили для игры "Найди слово" */
+.image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin: 10px 0;
+}
+
+.main-image {
+    width: 180px;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f8f9fa;
+    border-radius: 16px;
+    border: 3px solid #e9ecef;
+    overflow: hidden;
+}
+
+.main-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.fallback-emoji-large {
+    font-size: 70px;
+    text-align: center;
+}
+
+.words-grid {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px auto;
+    padding: 10px;
+    flex-wrap: wrap;
+    max-width: 95%;
+}
+
+.word-card {
+    background: white;
+    border: 3px solid #e9ecef;
+    border-radius: 12px;
+    padding: 15px 10px;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #2d3748;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+    min-height: 70px;
+    flex: 1;
+    max-width: 120px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.word-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border-color: #4299e1;
+}
+
+.word-card.correct {
+    background: #c6f6d5;
+    border-color: #48bb78;
+    color: #22543d;
+}
+
+.word-card.wrong {
+    background: #fed7d7;
+    border-color: #f56565;
+    color: #742a2a;
+}
+
+/* Уменьшаем отступы в game-header */
+.game-header {
+    padding: 15px 20px;
+}
+
+.instruction {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.level-info {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.progress-container {
+    margin-top: 10px;
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 480px) {
+    .main-image {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .fallback-emoji-large {
+        font-size: 50px;
+    }
+    
+    .words-grid {
+        gap: 8px;
+        padding: 8px;
+    }
+    
+    .word-card {
+        min-width: 80px;
+        min-height: 60px;
+        padding: 12px 8px;
+        font-size: 1.1rem;
+        max-width: 100px;
+    }
+    
+    .game-header {
+        padding: 10px 15px;
+    }
+    
+    .instruction {
+        font-size: 0.8rem;
+    }
+    
+    .level-info {
+        font-size: 0.8rem;
+    }
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 360px) {
+    .words-grid {
+        gap: 6px;
+    }
+    
+    .word-card {
+        min-width: 70px;
+        min-height: 50px;
+        padding: 10px 6px;
+        font-size: 1rem;
+        max-width: 90px;
+    }
+    
+    .main-image {
+        width: 130px;
+        height: 130px;
+    }
+}

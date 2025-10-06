@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игры: Веселый звук А - Read and Play</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #C2E1DB, #E8F4F1);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .games-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .header-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .games-hero {
+            text-align: center;
+        }
+
+        .games-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #E57140;
+            margin-bottom: 10px;
+        }
+
+        .games-subtitle {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .back-button {
+            background: #AED7D1;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            background: #9bc7c0;
+            transform: translateY(-2px);
+        }
+
+        .carousel-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+            gap: 20px;
+            padding: 10px;
+        }
+
+        .game-card {
+            flex: 0 0 calc(33.333% - 14px);
+            height: 320px;
+            background: white;
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        }
+
+        /* Специальные стили для карточки словаря */
+        .dictionary-card {
+            background: linear-gradient(135deg, #E57140, #FF9B6A);
+            color: white;
+        }
+
+        .dictionary-card .game-image {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .dictionary-card .game-title,
+        .dictionary-card .game-description {
+            color: white;
+        }
+
+        .dictionary-card .game-button {
+            background: white;
+            color: #E57140;
+        }
+
+        .dictionary-card .game-button:hover {
+            background: #F7F1E5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255,255,255,0.3);
+        }
+
+        .game-image {
+            width: 100px;
+            height: 100px;
+            background: #F8F5F0;
+            border-radius: 15px;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .game-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .dictionary-card .game-image {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .game-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #3F413E;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .game-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            max-width: 250px;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .game-button {
+            background: #E57140;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 10px 25px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: auto;
+            width: 100%;
+            max-width: 180px;
+        }
+
+        .game-button:hover {
+            background: #d16232;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(229, 113, 64, 0.3);
+        }
+
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #D3C9B5;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: #E57140;
+            transform: scale(1.2);
+        }
+
+        .carousel-arrows {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 15px;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .arrow {
+            background: rgba(255,255,255,0.95);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            pointer-events: all;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #E57140;
+        }
+
+        .arrow:hover {
+            background: #E57140;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Анимации */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .game-card {
+            animation: slideIn 0.5s ease;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 1024px) {
+            .game-card {
+                flex: 0 0 calc(50% - 10px);
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .games-container {
+                padding: 15px;
+            }
+
+            .header-section {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+
+            .games-title {
+                font-size: 28px;
+            }
+
+            .games-subtitle {
+                font-size: 16px;
+            }
+
+            .game-card {
+                flex: 0 0 100%;
+                height: 280px;
+                padding: 18px 12px;
+            }
+
+            .game-image {
+                width: 90px;
+                height: 90px;
+                margin-bottom: 8px;
+            }
+
+            .game-title {
+                font-size: 18px;
+            }
+
+            .game-description {
+                font-size: 13px;
+            }
+
+            .arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+
+            .carousel-arrows {
+                padding: 0 10px;
+            }
+
+            .back-button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .games-title {
+                font-size: 24px;
+            }
+
+            .game-card {
+                height: 260px;
+                padding: 15px 10px;
+            }
+
+            .game-image {
+                width: 80px;
+                height: 80px;
+            }
+
+            .game-title {
+                font-size: 17px;
+            }
+
+            .game-button {
+                padding: 8px 20px;
+                font-size: 13px;
+                max-width: 160px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <a href="../../index.html" style="text-decoration: none;">
+                        <div class="site-name">
+                            <span class="read-text">Read</span>
+                            <span class="and-text">and</span>
+                            <span class="play-text">Play</span>
+                        </div>
+                    </a>
+                </div>
+                
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="../../index.html">Главная</a></li>
+                        <li><a href="index.html">Назад к модулю</a></li>
+                    </ul>
+                </nav>
+                
+                <button class="mobile-menu-btn">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="games-container">
+        <button class="back-button" onclick="window.location.href='learning-1.html'">
+            ← Назад к модулю
+        </button>
+
+        <div class="header-section">
+            <div class="games-hero">
+                <h1 class="games-title">Игры с Веселым звуком [æ]</h1>
+                <p class="games-subtitle">8 увлекательных игр для закрепления правила! Используй стрелки для навигации</p>
+            </div>
+        </div>
+
+        <div class="carousel-container">
+            <div class="carousel-track" id="carouselTrack">
+                <!-- СЛОВАРЬ РАЗДЕЛА - ПЕРВАЯ КАРТОЧКА -->
+                <div class="game-card dictionary-card">
+                    <div class="game-image">
+                        <img src="../../assets/images/games/dictionary.png" alt="Словарь раздела">
+                    </div>
+                    <h2 class="game-title">Словарь раздела</h2>
+                    <p class="game-description">
+                        Изучи все слова с звуком [æ] из этого модуля! Послушай произношение и перевод.
+                    </p>
+                    <button class="game-button" onclick="window.location.href='module-dictionary.html'">
+                        Изучить слова
+                    </button>
+                </div>
+
+                <!-- Игра 1: Найди картинку -->
+                <div class="game-card">
+                    <div class="game-image">
+                        <img src="../../assets/images/games/find-picture.png" alt="Найди картинку">
+                    </div>
+                    <h2 class="game-title">Найди картинку</h2>
+                    <p class="game-description">
+                        Прочитай слово и найди правильную картинку! Развивай зрительное восприятие.
+                    </p>
+                    <button class="game-button" onclick="window.location.href='game-find-picture.html'">
+                        Играть сейчас
+                    </button>
+                </div>
+
+                <!-- Игра 2: Найди слово -->
+                <div class="game-card">
+                    <div class="game-image">
+                        <img src="../../assets/images/games/find-word.png" alt="Найди слово">
+                    </div>
+                    <h2 class="game-title">Найди слово</h2>
+                    <p class="game-description">
+                        Среди множества букв найди слова с звуком [æ]! Тренируй правописание.
+                    </p>
+                    <button class="game-button" onclick="startGame('find-word')">Играть сейчас</button>
+                </div>
+
+                <!-- Игра 3: Покорми кота -->
+                <div class="game-card">
+                    <div class="game-image">
+                        <img src="../../assets/images/games/feed-cat.png" alt="Покорми кота">
+                    </div>
+                    <h2 class="game-title">Покорми кота</h2>
+                    <p class="game-description">
+                        Корми котика только словами с звуком [æ]! Веселая игра на скорость.
+                    </p>
+                    <button class="game-button" onclick="startGame('feed-cat')">Играть сейчас</button>
+                </div>
+
+                <!-- Игра 4: Составь пары -->
+                <div class="game-card">
+                    <div class="game-image">
+                        <img src="../../assets/images/games/make-pairs.png" alt="Составь пары">
+                    </div>
+                    <h2 class="game-title">Составь пары</h2>
+                    <p class="game-description">
+                        Соедини картинки с правильными словами! Укрепляй связь между образом и написанием.
+                    </p>
+                    <button class="game-button" onclick="startGame('make-pairs')">Играть сейчас</button>
+                </div>
+
+                <!-- Игра 5: Составь слово -->
+                <div class="game-card">
+                    <div class="game-image">
+                        <img src="../../assets/images/games/build-word.png" alt="Составь слово">
+                    </div>
+                    <h2 class="game-title">Составь слово</h2>
+                    <p class="game-description">
+                        Из букв собери слово, которое услышишь! Развивай фонематический слух.
+                    </p>
+                    <button class="game-button" onclick="startGame('build-word')">Играть сейчас</button>
+                </div>
+
+                <!-- Игра 6: Веселый тест -->
+                <div class="game-card">
+                    <div class="game-image">
+                        <img src="../../assets/images/games/fun-test.png" alt="Веселый тест">
+                    </div>
+                    <h2 class="game-title">Веселый тест</h2>
+                    <p class="game-description">
+                        Ответь на вопросы про звук [æ]! Проверь свои знания в увлекательной викторине.
+                    </p>
+                    <button class="game-button" onclick="startGame('fun-test')">Играть сейчас</button>
+                </div>
+
+                <!-- Игра 7: Филворд -->
+                <div class="game-card">
+                    <div class="game-image">
+                        <img src="../../assets/images/games/word-search.png" alt="Филворд">
+                    </div>
+                    <h2 class="game-title">Филворд: найди слова</h2>
+                    <p class="game-description">
+                        В сетке букв найди все слова с звуком [æ]! Тренировка внимания и словарного запаса.
+                    </p>
+                    <button class="game-button" onclick="startGame('word-search')">Играть сейчас</button>
+                </div>
+            </div>
+
+            <div class="carousel-arrows">
+                <button class="arrow" onclick="prevGame()">←</button>
+                <button class="arrow" onclick="nextGame()">→</button>
+            </div>
+        </div>
+
+        <div class="carousel-nav" id="carouselNav">
+            <!-- Навигационные точки будут добавлены через JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        let currentGame = 0;
+        const totalGames = 8;
+        const gamesPerView = 3;
+        const totalSlides = Math.ceil(totalGames / gamesPerView);
+
+        // Инициализация карусели
+        document.addEventListener('DOMContentLoaded', function() {
+            createNavigationDots();
+            updateCarousel();
+        });
+
+        // Создание навигационных точек
+        function createNavigationDots() {
+            const navContainer = document.getElementById('carouselNav');
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+                dot.addEventListener('click', () => goToSlide(i));
+                navContainer.appendChild(dot);
+            }
+        }
+
+        // Переход к конкретному слайду
+        function goToSlide(slideIndex) {
+            currentGame = slideIndex * gamesPerView;
+            updateCarousel();
+        }
+
+        // Следующий слайд
+        function nextGame() {
+            if (currentGame < totalGames - gamesPerView) {
+                currentGame += gamesPerView;
+                updateCarousel();
+            }
+        }
+
+        // Предыдущий слайд
+        function prevGame() {
+            if (currentGame > 0) {
+                currentGame -= gamesPerView;
+                updateCarousel();
+            }
+        }
+
+        // Обновление карусели
+        function updateCarousel() {
+            const track = document.getElementById('carouselTrack');
+            const cardWidth = 100 / gamesPerView;
+            const translateX = -(currentGame * cardWidth);
+            track.style.transform = `translateX(${translateX}%)`;
+
+            // Обновление активной точки
+            const currentSlide = Math.floor(currentGame / gamesPerView);
+            const dots = document.querySelectorAll('.nav-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        // Обработчик свайпов для мобильных устройств
+        let startX = 0;
+        let endX = 0;
+
+        document.getElementById('carouselTrack').addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+
+        document.getElementById('carouselTrack').addEventListener('touchend', (e) => {
+            endX = e.changedTouches[0].clientX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = startX - endX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    nextGame(); // Свайп влево
+                } else {
+                    prevGame(); // Свайп вправо
+                }
+            }
+        }
+
+        // Запуск игры (заглушка - в реальном приложении будет переход на конкретную игру)
+        function startGame(gameType) {
+            alert(`Запускается игра: ${getGameName(gameType)}\n\nЭта игра скоро будет доступна!`);
+            // В реальном приложении:
+            // window.location.href = `game-${gameType}.html`;
+        }
+
+        function getGameName(type) {
+            const games = {
+                'find-picture': 'Найди картинку',
+                'find-word': 'Найди слово', 
+                'feed-cat': 'Покорми кота',
+                'make-pairs': 'Составь пары',
+                'build-word': 'Составь слово',
+                'fun-test': 'Веселый тест',
+                'word-search': 'Филворд'
+            };
+            return games[type] || 'Игра';
+        }
+
+        // Адаптация количества карточек при изменении размера окна
+        window.addEventListener('resize', function() {
+            // Пересчитываем логику для мобильных устройств
+            updateCarousel();
+        });
+    </script>
+</body>
+</html>

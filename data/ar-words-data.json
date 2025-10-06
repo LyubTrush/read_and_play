@@ -1,0 +1,118 @@
+{
+    "levels": [
+        {
+            "name": "Простейшие слова",
+            "words": [
+                {
+                    "word": "CAR",
+                    "lowercase": "car",
+                    "image": "../../assets/images/words/car.png",
+                    "transcription": "/kɑː/",
+                    "translation": "машина",
+                    "variants": ["car", "star", "far", "jar"]
+                },
+                {
+                    "word": "STAR",
+                    "lowercase": "star",
+                    "image": "../../assets/images/words/star.png",
+                    "transcription": "/stɑː/",
+                    "translation": "звезда",
+                    "variants": ["star", "car", "far", "jar"]
+                },
+                {
+                    "word": "FAR",
+                    "lowercase": "far",
+                    "image": "../../assets/images/words/far.png",
+                    "transcription": "/fɑː/",
+                    "translation": "далеко",
+                    "variants": ["far", "car", "star", "jar"]
+                },
+                {
+                    "word": "JAR",
+                    "lowercase": "jar",
+                    "image": "../../assets/images/words/jar.png",
+                    "transcription": "/dʒɑː/",
+                    "translation": "банка",
+                    "variants": ["jar", "car", "star", "far"]
+                }
+            ]
+        },
+        {
+            "name": "Слова с начальными стечениями",
+            "words": [
+                {
+                    "word": "PARK",
+                    "lowercase": "park",
+                    "image": "../../assets/images/words/park.png",
+                    "transcription": "/pɑːk/",
+                    "translation": "парк",
+                    "variants": ["park", "dark", "shark", "mark"]
+                },
+                {
+                    "word": "DARK",
+                    "lowercase": "dark",
+                    "image": "../../assets/images/words/dark.png",
+                    "transcription": "/dɑːk/",
+                    "translation": "темный",
+                    "variants": ["dark", "park", "shark", "bark"]
+                },
+                {
+                    "word": "SHARK",
+                    "lowercase": "shark",
+                    "image": "../../assets/images/words/shark.png",
+                    "transcription": "/ʃɑːk/",
+                    "translation": "акула",
+                    "variants": ["shark", "park", "dark", "mark"]
+                },
+                {
+                    "word": "CARD",
+                    "lowercase": "card",
+                    "image": "../../assets/images/words/card.png",
+                    "transcription": "/kɑːd/",
+                    "translation": "карта",
+                    "variants": ["card", "hard", "yard", "ward"]
+                },
+                {
+                    "word": "HARD",
+                    "lowercase": "hard",
+                    "image": "../../assets/images/words/hard.png",
+                    "transcription": "/hɑːd/",
+                    "translation": "тяжелый",
+                    "variants": ["hard", "card", "yard", "ward"]
+                },
+                {
+                    "word": "FARM",
+                    "lowercase": "farm",
+                    "image": "../../assets/images/words/farm.png",
+                    "transcription": "/fɑːm/",
+                    "translation": "ферма",
+                    "variants": ["farm", "arm", "harm", "charm"]
+                },
+                {
+                    "word": "ARM",
+                    "lowercase": "arm",
+                    "image": "../../assets/images/words/arm.png",
+                    "transcription": "/ɑːm/",
+                    "translation": "рука",
+                    "variants": ["arm", "farm", "harm", "charm"]
+                },
+                {
+                    "word": "ART",
+                    "lowercase": "art",
+                    "image": "../../assets/images/words/art.png",
+                    "transcription": "/ɑːt/",
+                    "translation": "искусство",
+                    "variants": ["art", "part", "cart", "smart"]
+                },
+                {
+                    "word": "PART",
+                    "lowercase": "part",
+                    "image": "../../assets/images/words/part.png",
+                    "transcription": "/pɑːt/",
+                    "translation": "часть",
+                    "variants": ["part", "art", "cart", "smart"]
+                }
+            ]
+        }
+    ]
+}
