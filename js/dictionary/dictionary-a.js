@@ -4,6 +4,13 @@ document.addEventListener('DOMContentLoaded', function() {
         dataPath: '../../data/a-words-data.json',
         highlightType: 'letter',
         highlightTarget: 'a',
+        emojiMap: {
+            'rat': '🐀', 'mat': '🧺', 'hat': '🎩', 'fat': '🐖', 'cat': '🐱', 'bat': '🦇',
+            'dad': '👨', 'bad': '😠', 'sad': '😢', 'glad': '😊', 'bag': '🎒', 'mag': '📰',
+            'flag': '🚩', 'crab': '🦀', 'cab': '🚕', 'pan': '🍳', 'hand': '✋', 'land': '🏝️',
+            'sand': '🏖️', 'ham': '🍖', 'jam': '🍓', 'lamp': '💡', 'black': '⚫', 'back': '🔙',
+            'snack': '🍪'
+        }
     });
     
     window.dictionaryCore.loadDictionaryData();
