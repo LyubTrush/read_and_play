@@ -1,13 +1,26 @@
 // games-carousel.js - Общая логика карусели
 let currentGame = 0;
-const gamesPerView = 3;
+let gamesPerView = 3; // Будет меняться в зависимости от размера экрана
 let totalGames = 0;
 
 // Инициализация карусели
 function initGamesCarousel(gameCount) {
     totalGames = gameCount;
+    updateGamesPerView();
     createNavigationDots();
     updateCarousel();
+}
+
+// Обновление количества видимых игр в зависимости от размера экрана
+function updateGamesPerView() {
+    const width = window.innerWidth;
+    if (width <= 768) {
+        gamesPerView = 1; // На мобильных - 1 карточка
+    } else if (width <= 1024) {
+        gamesPerView = 2; // На планшетах - 2 карточки
+    } else {
+        gamesPerView = 3; // На десктопе - 3 карточки
+    }
 }
 
 // Создание навигационных точек
@@ -32,7 +45,8 @@ function goToSlide(slideIndex) {
 
 // Следующий слайд
 function nextGame() {
-    if (currentGame < totalGames - gamesPerView) {
+    const maxSlide = Math.floor((totalGames - 1) / gamesPerView) * gamesPerView;
+    if (currentGame < maxSlide) {
         currentGame += gamesPerView;
         updateCarousel();
     }
@@ -51,8 +65,9 @@ function updateCarousel() {
     const track = document.getElementById('carouselTrack');
     if (!track) return;
     
-    const cardWidth = 100 / gamesPerView;
-    const translateX = -(currentGame * cardWidth);
+    // Рассчитываем смещение в процентах
+    const cardWidthPercentage = 100 / gamesPerView;
+    const translateX = -(currentGame * cardWidthPercentage);
     track.style.transform = `translateX(${translateX}%)`;
 
     // Обновление активной точки
@@ -96,7 +111,14 @@ function initSwipe() {
 
 // Адаптация при изменении размера окна
 window.addEventListener('resize', function() {
-    updateCarousel();
+    const oldGamesPerView = gamesPerView;
+    updateGamesPerView();
+    
+    // Если изменилось количество видимых игр, пересчитываем позицию
+    if (oldGamesPerView !== gamesPerView) {
+        createNavigationDots();
+        updateCarousel();
+    }
 });
 
 // Инициализация при загрузке документа
