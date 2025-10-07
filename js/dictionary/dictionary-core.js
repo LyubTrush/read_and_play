@@ -46,6 +46,9 @@ class DictionaryCore {
             this.dictionaryData = await response.json();
             console.log('Данные словаря успешно загружены');
             
+            // Исправляем пути к изображениям в загруженных данных
+            this.fixImagePaths();
+            
             this.createGroupsNavigation();
             this.showCurrentGroup();
             this.setupKeyboardNavigation();
@@ -54,6 +57,31 @@ class DictionaryCore {
             console.error('Ошибка загрузки данных:', error);
             this.createFallbackData();
         }
+    }
+
+    // Исправление путей к изображениям в загруженных данных
+    fixImagePaths() {
+        if (!this.dictionaryData?.levels) return;
+        
+        this.dictionaryData.levels.forEach(level => {
+            if (level.words) {
+                level.words.forEach(word => {
+                    // Если путь к изображению относительный, делаем его абсолютным
+                    if (word.image && !word.image.startsWith('http') && !word.image.startsWith('data:')) {
+                        // Добавляем базовый путь если нужно
+                        if (word.image.startsWith('../')) {
+                            word.image = this.resolveRelativePath(word.image);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    // Разрешение относительных путей
+    resolveRelativePath(path) {
+        const basePath = window.location.pathname.includes('/pages/') ? '../..' : '..';
+        return path.replace(/^\.\.\//, basePath + '/');
     }
 
     // Создание fallback данных
@@ -67,7 +95,7 @@ class DictionaryCore {
                     lowercase: word,
                     translation: "перевод",
                     transcription: "/transcription/",
-                    image: "../../assets/images/placeholder.png"
+                    image: this.createWordImage(word) // Используем Data URL вместо пути к файлу
                 }))
             }]
         };
@@ -75,6 +103,20 @@ class DictionaryCore {
         this.createGroupsNavigation();
         this.showCurrentGroup();
         console.log('Fallback данные созданы');
+    }
+
+    // Создание Data URL изображения для слова
+    createWordImage(word) {
+        const emoji = this.getEmojiForWord(word);
+        const svg = `
+            <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="200" height="200" fill="#F3F4F6"/>
+                <rect x="50" y="50" width="100" height="100" fill="#E1E2E3" rx="8"/>
+                <text x="100" y="110" text-anchor="middle" font-family="Arial" font-size="24" fill="#666666">${emoji}</text>
+                <text x="100" y="160" text-anchor="middle" font-family="Arial" font-size="12" fill="#999999">${word}</text>
+            </svg>
+        `;
+        return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
     }
 
     // Навигация с клавиатуры
@@ -188,7 +230,6 @@ class DictionaryCore {
         const wordDisplay = document.getElementById('currentWordDisplay');
         if (!wordDisplay) return;
         
-        // ИСПРАВЛЕНИЕ: используем this.currentWordIndex
         if (this.currentWordIndex >= currentGroup.words.length) {
             this.currentWordIndex = 0;
         }
@@ -220,7 +261,6 @@ class DictionaryCore {
             <div class="word-russian">${wordData.translation || 'перевод'}</div>
             
             <button class="sound-button" onclick="playWordSound('${wordData.lowercase}')">
-                <img src="../../assets/icon/speaker.png" alt="Прослушать">
                 Прослушать
             </button>
         `;
