@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Покорми кота - Read and Play</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/game-styles.css">
+    <link rel="stylesheet" href="../../css/game-feed-the-cat.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Экран выбора правила -->
+        <div class="level-select-screen" id="levelSelect">
+            <h1 class="game-title">Покорми кота</h1>
+            <p class="game-subtitle">Лови слова с коротким звуком [æ] как в слове "cat"!</p>
+            
+            <div class="rules-info">
+                <div class="rule-card">
+                    <h3>Правило игры:</h3>
+                    <p>Когда буква A стоит в закрытом слоге (слог заканчивается на согласную), 
+                    она произносится как короткий звук [æ], похожий на русское "э" с широко открытым ртом.</p>
+                    <p><strong>Примеры:</strong> cat, hat, rat, bat</p>
+                </div>
+            </div>
+
+            <button class="start-button" onclick="startGame()">
+                🎮 Начать игру
+            </button>
+            
+            <button class="back-button" onclick="window.location.href='../../modules/magic-letter-a/games-rule-1.html'">
+                ← Назад к играм
+            </button>
+        </div>
+
+        <!-- Игровой экран -->
+        <div class="game-screen" id="gameScreen">
+            <div class="game-header">
+                <div class="header-left">
+                    <div class="instruction">🍖 Лови слова с коротким звуком [æ]!</div>
+                    <div class="score-container">
+                        <div class="score">Поймано: <span id="score">0</span> слов</div>
+                    </div>
+                </div>
+                
+                <button class="sound-toggle" id="soundToggle" title="Включить/выключить звук">
+                    <img src="../../assets/icon/sound-on.png" alt="Звук включен" id="soundToggleIcon">
+                    <span id="soundToggleText">Вкл</span>
+                </button>
+            </div>
+            
+            <!-- Игровое поле -->
+            <div class="game-field" id="gameField">
+                <!-- Фон -->
+                <div class="game-background"></div>
+                
+                <!-- Кот -->
+                <div class="cat-container" id="catContainer">
+                    <img src="../../assets/images/games/feed-cat-1.png" alt="Кот" class="cat" id="cat">
+                </div>
+                
+                <!-- Падающие слова -->
+                <div class="falling-words-container" id="fallingWordsContainer">
+                    <!-- Слова будут добавляться динамически -->
+                </div>
+            </div>
+
+            <div class="bottom-controls">
+                <button class="menu-button-bottom" onclick="backToMenu()">
+                    ← Меню
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Окно результатов -->
+    <div class="result-overlay" id="resultOverlay">
+        <div class="result-modal">
+            <button class="close-button" onclick="closeResult()">×</button>
+            <div class="result-image">
+                <img src="../../assets/icon/result-success.png" alt="Результат" id="resultImage">
+            </div>
+            <h2 class="result-title" id="resultTitle">Отлично!</h2>
+            <div class="result-stats" id="resultStats">Поймано: 0 слов</div>
+            <div class="result-buttons">
+                <button class="result-btn btn-retry" onclick="retryGame()">Играть еще раз</button>
+                <button class="result-btn btn-menu" onclick="backToMenu()">Меню</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/game-feed-the-cat/game-feed-the-cat-a.js"></script>
+</body>
+</html>

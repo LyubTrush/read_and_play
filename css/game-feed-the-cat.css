@@ -1,0 +1,387 @@
+/* game-feed-the-cat.css - Стили для игры "Покорми кота" */
+
+/* Фон игры как картинка */
+.game-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../../assets/images/games/feed-the-cat-background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+/* Если фон не загрузился - градиентный fallback */
+.game-background.fallback {
+    background: linear-gradient(180deg, #87CEEB 0%, #98FB98 70%, #7CB342 100%);
+}
+
+/* Кнопка старта */
+.start-button {
+    background: linear-gradient(135deg, #E57140, #FF8C42);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 18px 45px;
+    font-size: 22px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 30px 0;
+    box-shadow: 0 8px 20px rgba(229, 113, 64, 0.3);
+}
+
+.start-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(229, 113, 64, 0.4);
+    background: linear-gradient(135deg, #FF8C42, #E57140);
+}
+
+/* Информация о правилах */
+.rules-info {
+    background: #F7F1E5;
+    border-radius: 20px;
+    padding: 25px;
+    margin: 25px 0;
+    border: 3px solid #AED7D1;
+}
+
+.rule-card h3 {
+    color: #E57140;
+    font-size: 20px;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.rule-card p {
+    color: #3F413E;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.rule-card strong {
+    color: #E57140;
+}
+
+/* Игровое поле */
+.game-field {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 20px 0;
+    border: 3px solid #AED7D1;
+}
+
+/* Контейнер кота */
+.cat-container {
+    position: absolute;
+    bottom: 10px; /* Переместили к самому низу */
+    left: calc(50% - 20px); /* Сдвигаем на 20px левее от центра */
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.cat {
+    width: 150px; /* Увеличили размер кота */
+    height: 150px;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+}
+
+.cat.eating {
+    transform: scale(1.1);
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.4));
+}
+
+/* Контейнер для падающих слов */
+.falling-words-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Падающие слова */
+.falling-word {
+    position: absolute;
+    background: white; /* Белый фон */
+    color: #3F413E; /* Темно-серый цвет текста */
+    padding: 15px 25px;
+    border-radius: 25px;
+    font-size: 22px; /* Увеличили шрифт */
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    pointer-events: auto;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    border: 3px solid #E57140; /* Оранжевая рамка */
+    transition: all 0.3s ease;
+    z-index: 6;
+    min-width: 120px;
+    top: -120px; /* Начинают СВЕРХУ за пределами экрана */
+    user-select: none; /* Запрещаем выделение текста */
+}
+
+.falling-word:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    background: #FFF5F0; /* Светло-оранжевый при наведении */
+}
+
+.falling-word.correct-word {
+    background: white;
+    border-color: #E57140;
+    color: #3F413E;
+}
+
+.falling-word.incorrect-word {
+    background: white;
+    border-color: #AED7D1; /* Мятная рамка для неправильных */
+    color: #3F413E;
+}
+
+/* Подсветка букв согласно правилам - цвет E57140 */
+.falling-word .sound-a {
+    color: #E57140;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(229, 113, 64, 0.3);
+}
+
+.falling-word .sound-ar {
+    color: #E57140;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(229, 113, 64, 0.3);
+}
+
+.falling-word .sound-e {
+    color: #E57140;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(229, 113, 64, 0.3);
+}
+
+/* Заголовок игры - крупнее */
+.game-title {
+    font-size: 42px; /* Увеличили размер */
+    font-weight: 700;
+    color: #E57140;
+    margin-bottom: 10px;
+}
+
+/* Контейнер счета и заголовка */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 20px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.instruction {
+    font-size: 20px; /* Увеличили размер */
+    font-weight: 600;
+    color: #E57140;
+    background: #FFF5F0;
+    padding: 12px 25px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+/* Счетчик слов */
+.score-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #3F413E;
+}
+
+.score {
+    background: #F7F1E5;
+    padding: 12px 25px;
+    border-radius: 20px;
+    border: 2px solid #E57140;
+    min-width: 140px;
+    text-align: center;
+    font-size: 22px;
+}
+
+/* Анимации - МЕДЛЕННЕЕ */
+@keyframes fall {
+    from {
+        transform: translateY(-120px) rotate(0deg);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(600px) rotate(3deg);
+        opacity: 1;
+    }
+}
+
+@keyframes catch {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes miss {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100px);
+        opacity: 0;
+    }
+}
+
+.falling-word {
+    animation: fall linear forwards;
+    animation-duration: 12s; /* МЕДЛЕННАЯ анимация */
+}
+
+.falling-word.caught {
+    animation: catch 0.5s ease forwards;
+}
+
+.falling-word.missed {
+    animation: miss 0.5s ease forwards;
+}
+
+/* Эффекты частиц */
+.particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #FFD93D;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 4;
+}
+
+.particle.correct {
+    background: #E57140;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .game-field {
+        height: 400px;
+    }
+    
+    .cat {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .cat-container {
+        left: calc(50% - 15px); /* Меньший сдвиг на мобильных */
+    }
+    
+    .falling-word {
+        font-size: 20px;
+        padding: 12px 20px;
+        min-width: 100px;
+        top: -100px;
+        animation-duration: 10s;
+    }
+    
+    .game-title {
+        font-size: 36px;
+    }
+    
+    .instruction {
+        font-size: 18px;
+        padding: 10px 20px;
+    }
+    
+    .score {
+        font-size: 20px;
+        padding: 10px 20px;
+        min-width: 120px;
+    }
+    
+    .game-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .header-left {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-field {
+        height: 350px;
+    }
+    
+    .cat {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .cat-container {
+        left: calc(50% - 10px); /* Еще меньший сдвиг на маленьких экранах */
+    }
+    
+    .falling-word {
+        font-size: 18px;
+        padding: 10px 18px;
+        min-width: 90px;
+        top: -80px;
+        animation-duration: 8s;
+    }
+    
+    .game-title {
+        font-size: 32px;
+    }
+    
+    .instruction {
+        font-size: 16px;
+        padding: 8px 16px;
+    }
+    
+    .score {
+        font-size: 18px;
+        padding: 8px 16px;
+        min-width: 100px;
+    }
+    
+    .start-button {
+        padding: 15px 35px;
+        font-size: 20px;
+    }
+    
+    .rules-info {
+        padding: 20px;
+    }
+    
+    .rule-card h3 {
+        font-size: 18px;
+    }
+}
