@@ -155,17 +155,10 @@
         }
 
         // Запуск игры - переход по ссылке
-        function startGame(gameLink) {
-            // Временно показываем alert, пока игры не созданы
-          //  if (gameLink.includes('dictionary')) {
-          //      alert('Словарь раздела скоро будет доступен!');
-          //  } else {
-          //      const gameName = gameLink.split('/').pop()?.replace('.html', '') || 'игра';
-          //      alert(`Игра "${gameName}" скоро будет доступна!`);
-         //   }
-            // Когда игры будут готовы, раскомментировать:
-             window.location.href = gameLink;
-        }
+function startGame(gameLink) {
+    // Прямой переход по ссылке игры
+    window.location.href = gameLink;
+}
 
         // Инициализация
         document.addEventListener('DOMContentLoaded', function() {
