@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const dataPath = isGitHubPages 
         ? `/${repoName}/data/a-e-words-data.json`
-        : '../../data/a-e-words-data.json';
+        : '../../data/a-words-data.json';
     
     window.dictionaryCore = new DictionaryCore({
         dataPath: dataPath,
