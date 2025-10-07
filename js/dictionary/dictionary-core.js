@@ -7,7 +7,6 @@ class DictionaryCore {
         this.currentViewMode = 'single';
         this.config = {
             dataPath: '',
-            imageBasePath: '../../assets/images/words', // новый параметр
             highlightType: 'letter',
             highlightTarget: 'a',
             emojiMap: {},
@@ -42,8 +41,9 @@ class DictionaryCore {
             }
             
             this.dictionaryData = await response.json();
-            console.log('Данные словаря успешно загружены');
+            console.log('Данные словаря успешно загружены:', this.dictionaryData);
             
+            // ИСПРАВЛЕНИЕ: Используем реальные данные из JSON, а не fallback
             this.createGroupsNavigation();
             this.showCurrentGroup();
             this.setupKeyboardNavigation();
@@ -74,6 +74,24 @@ class DictionaryCore {
         console.log('Fallback данные созданы');
     }
 
+    // НОВЫЙ МЕТОД: Получение правильного пути к картинке
+    getImagePath(word) {
+        // Проверяем, находимся ли мы на GitHub Pages
+        const isGitHubPages = window.location.hostname.includes('github.io');
+        
+        if (isGitHubPages) {
+            // Для GitHub Pages
+            const repoName = 'english-for-kids'; // ЗАМЕНИТЕ на ваше имя репозитория
+            return `/${repoName}/assets/images/words/${word}.png`;
+        } else {
+            // Для локальной разработки
+            const isInPagesFolder = window.location.pathname.includes('/pages/');
+            return isInPagesFolder 
+                ? `../../assets/images/words/${word}.png`
+                : `../assets/images/words/${word}.png`;
+        }
+    }
+
     createWordImage(word) {
         const emoji = this.getEmojiForWord(word);
         const svg = `
@@ -86,6 +104,132 @@ class DictionaryCore {
         return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
     }
 
+    setupKeyboardNavigation() {
+        document.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    handleKeyDown(event) {
+        if (this.currentViewMode !== 'single') return;
+        
+        switch(event.key) {
+            case 'ArrowLeft':
+                event.preventDefault();
+                this.prevWord();
+                break;
+            case 'ArrowRight':
+                event.preventDefault();
+                this.nextWord();
+                break;
+        }
+    }
+
+    // Создание навигации по группам
+    createGroupsNavigation() {
+        const groupsNav = document.getElementById('groupsNavigation');
+        if (!groupsNav) {
+            console.warn('Элемент groupsNavigation не найден');
+            return;
+        }
+        
+        groupsNav.innerHTML = '';
+        
+        // ИСПРАВЛЕНИЕ: Используем реальные группы из dictionaryData
+        this.dictionaryData.levels.forEach((group, index) => {
+            const button = document.createElement('button');
+            button.className = `group-button ${index === 0 ? 'active' : ''}`;
+            button.textContent = group.name;
+            button.onclick = () => this.switchGroup(index);
+            groupsNav.appendChild(button);
+        });
+    }
+
+    // Переключение группы
+    switchGroup(groupIndex) {
+        this.currentGroupIndex = groupIndex;
+        this.currentWordIndex = 0;
+        
+        document.querySelectorAll('.group-button').forEach((btn, index) => {
+            btn.classList.toggle('active', index === groupIndex);
+        });
+        
+        this.showCurrentGroup();
+    }
+
+    // Показать текущую группу
+    showCurrentGroup() {
+        if (!this.dictionaryData?.levels[this.currentGroupIndex]) {
+            console.error('Данные не загружены или группа не найдена');
+            return;
+        }
+
+        const currentGroup = this.dictionaryData.levels[this.currentGroupIndex];
+        console.log('Показываем группу:', currentGroup.name, 'слов:', currentGroup.words.length);
+        
+        if (this.currentViewMode === 'single') {
+            this.showSingleCardView(currentGroup);
+        } else {
+            this.showAllCardsView(currentGroup);
+        }
+    }
+
+    // Режим одной карточки
+    showSingleCardView(currentGroup) {
+        const singleView = document.getElementById('singleCardView');
+        const allView = document.getElementById('allCardsView');
+        
+        if (!singleView || !allView) {
+            console.error('Элементы view не найдены');
+            return;
+        }
+        
+        singleView.style.display = 'flex';
+        allView.style.display = 'none';
+        
+        this.showCurrentWord(currentGroup);
+    }
+
+    // Режим всех карточек
+    showAllCardsView(currentGroup) {
+        const singleView = document.getElementById('singleCardView');
+        const allView = document.getElementById('allCardsView');
+        const wordsGrid = document.getElementById('wordsGrid');
+        
+        if (!singleView || !allView || !wordsGrid) {
+            console.error('Элементы view не найдены');
+            return;
+        }
+        
+        singleView.style.display = 'none';
+        allView.style.display = 'flex';
+        wordsGrid.innerHTML = '';
+        
+        // Создаем карточки для всех слов в текущей группе
+        currentGroup.words.forEach(wordData => {
+            const wordCard = this.createWordCard(wordData, 'grid');
+            wordsGrid.appendChild(wordCard);
+        });
+        
+        console.log(`Показано ${currentGroup.words.length} слов в режиме сетки`);
+    }
+
+    // Показать текущее слово
+    showCurrentWord(currentGroup) {
+        const wordDisplay = document.getElementById('currentWordDisplay');
+        if (!wordDisplay) return;
+        
+        if (this.currentWordIndex >= currentGroup.words.length) {
+            this.currentWordIndex = 0;
+        }
+        
+        const wordData = currentGroup.words[this.currentWordIndex];
+        console.log('Показываем слово:', wordData.word, 'из группы:', currentGroup.name);
+        
+        const wordCard = this.createWordCard(wordData, 'single');
+        
+        wordDisplay.innerHTML = '';
+        wordDisplay.appendChild(wordCard);
+    }
+
     // Создание карточки слова
     createWordCard(wordData, mode = 'single') {
         const card = document.createElement('div');
@@ -93,8 +237,9 @@ class DictionaryCore {
         
         const formattedWord = this.formatWordWithHighlight(wordData.word);
         const emoji = this.getEmojiForWord(wordData.lowercase);
-        // ИСПОЛЬЗУЕМ imageBasePath из конфига
-        const imagePath = `${this.config.imageBasePath}/${wordData.lowercase}.png`;
+        
+        // ИСПРАВЛЕНИЕ: Используем динамический путь к картинке
+        const imagePath = this.getImagePath(wordData.lowercase);
         
         card.innerHTML = `
             <div class="word-image">
@@ -115,120 +260,7 @@ class DictionaryCore {
         return card;
     }
 
-    // Остальные методы остаются без изменений
-    setupKeyboardNavigation() {
-        document.addEventListener('keydown', this.handleKeyDown);
-    }
-
-    handleKeyDown(event) {
-        if (this.currentViewMode !== 'single') return;
-        
-        switch(event.key) {
-            case 'ArrowLeft':
-                event.preventDefault();
-                this.prevWord();
-                break;
-            case 'ArrowRight':
-                event.preventDefault();
-                this.nextWord();
-                break;
-        }
-    }
-
-    createGroupsNavigation() {
-        const groupsNav = document.getElementById('groupsNavigation');
-        if (!groupsNav) {
-            console.warn('Элемент groupsNavigation не найден');
-            return;
-        }
-        
-        groupsNav.innerHTML = '';
-        
-        this.dictionaryData.levels.forEach((group, index) => {
-            const button = document.createElement('button');
-            button.className = `group-button ${index === 0 ? 'active' : ''}`;
-            button.textContent = group.name;
-            button.onclick = () => this.switchGroup(index);
-            groupsNav.appendChild(button);
-        });
-    }
-
-    switchGroup(groupIndex) {
-        this.currentGroupIndex = groupIndex;
-        this.currentWordIndex = 0;
-        
-        document.querySelectorAll('.group-button').forEach((btn, index) => {
-            btn.classList.toggle('active', index === groupIndex);
-        });
-        
-        this.showCurrentGroup();
-    }
-
-    showCurrentGroup() {
-        if (!this.dictionaryData?.levels[this.currentGroupIndex]) {
-            console.error('Данные не загружены или группа не найдена');
-            return;
-        }
-
-        const currentGroup = this.dictionaryData.levels[this.currentGroupIndex];
-        
-        if (this.currentViewMode === 'single') {
-            this.showSingleCardView(currentGroup);
-        } else {
-            this.showAllCardsView(currentGroup);
-        }
-    }
-
-    showSingleCardView(currentGroup) {
-        const singleView = document.getElementById('singleCardView');
-        const allView = document.getElementById('allCardsView');
-        
-        if (!singleView || !allView) {
-            console.error('Элементы view не найдены');
-            return;
-        }
-        
-        singleView.style.display = 'flex';
-        allView.style.display = 'none';
-        
-        this.showCurrentWord(currentGroup);
-    }
-
-    showAllCardsView(currentGroup) {
-        const singleView = document.getElementById('singleCardView');
-        const allView = document.getElementById('allCardsView');
-        const wordsGrid = document.getElementById('wordsGrid');
-        
-        if (!singleView || !allView || !wordsGrid) {
-            console.error('Элементы view не найдены');
-            return;
-        }
-        
-        singleView.style.display = 'none';
-        allView.style.display = 'flex';
-        wordsGrid.innerHTML = '';
-        
-        currentGroup.words.forEach(wordData => {
-            const wordCard = this.createWordCard(wordData, 'grid');
-            wordsGrid.appendChild(wordCard);
-        });
-    }
-
-    showCurrentWord(currentGroup) {
-        const wordDisplay = document.getElementById('currentWordDisplay');
-        if (!wordDisplay) return;
-        
-        if (this.currentWordIndex >= currentGroup.words.length) {
-            this.currentWordIndex = 0;
-        }
-        
-        const wordData = currentGroup.words[this.currentWordIndex];
-        const wordCard = this.createWordCard(wordData, 'single');
-        
-        wordDisplay.innerHTML = '';
-        wordDisplay.appendChild(wordCard);
-    }
-
+    // Остальные методы без изменений
     formatWordWithHighlight(word) {
         const wordLower = word.toLowerCase();
         

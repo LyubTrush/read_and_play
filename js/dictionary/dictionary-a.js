@@ -1,24 +1,15 @@
 // a-words.js - конфигурация для A слов
 document.addEventListener('DOMContentLoaded', function() {
-    // Определяем правильный путь в зависимости от окружения
+    // Определяем правильный путь к JSON
     const isGitHubPages = window.location.hostname.includes('github.io');
-    const repoName = 'english-for-kids'; // замените на имя вашего репозитория
+    const repoName = 'read_and_play'; 
     
-    let dataPath, imageBasePath;
-    
-    if (isGitHubPages) {
-        // Для GitHub Pages
-        dataPath = `/${repoName}/data/a-words-data.json`;
-        imageBasePath = `/${repoName}/assets/images/words`;
-    } else {
-        // Для локальной разработки
-        dataPath = '../../data/a-words-data.json';
-        imageBasePath = '../../assets/images/words';
-    }
+    const dataPath = isGitHubPages 
+        ? `/${repoName}/data/a-words-data.json`
+        : '../../data/a-words-data.json';
     
     window.dictionaryCore = new DictionaryCore({
         dataPath: dataPath,
-        imageBasePath: imageBasePath,
         highlightType: 'letter',
         highlightTarget: 'a',
         emojiMap: {
