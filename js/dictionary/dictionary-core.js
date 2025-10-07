@@ -46,9 +46,6 @@ class DictionaryCore {
             this.dictionaryData = await response.json();
             console.log('Данные словаря успешно загружены');
             
-            // Исправляем пути к изображениям в загруженных данных
-            this.fixImagePaths();
-            
             this.createGroupsNavigation();
             this.showCurrentGroup();
             this.setupKeyboardNavigation();
@@ -57,31 +54,6 @@ class DictionaryCore {
             console.error('Ошибка загрузки данных:', error);
             this.createFallbackData();
         }
-    }
-
-    // Исправление путей к изображениям в загруженных данных
-    fixImagePaths() {
-        if (!this.dictionaryData?.levels) return;
-        
-        this.dictionaryData.levels.forEach(level => {
-            if (level.words) {
-                level.words.forEach(word => {
-                    // Если путь к изображению относительный, делаем его абсолютным
-                    if (word.image && !word.image.startsWith('http') && !word.image.startsWith('data:')) {
-                        // Добавляем базовый путь если нужно
-                        if (word.image.startsWith('../')) {
-                            word.image = this.resolveRelativePath(word.image);
-                        }
-                    }
-                });
-            }
-        });
-    }
-
-    // Разрешение относительных путей
-    resolveRelativePath(path) {
-        const basePath = window.location.pathname.includes('/pages/') ? '../..' : '..';
-        return path.replace(/^\.\.\//, basePath + '/');
     }
 
     // Создание fallback данных
@@ -95,7 +67,7 @@ class DictionaryCore {
                     lowercase: word,
                     translation: "перевод",
                     transcription: "/transcription/",
-                    image: this.createWordImage(word) // Используем Data URL вместо пути к файлу
+                    image: this.createWordImage(word)
                 }))
             }]
         };
@@ -113,7 +85,6 @@ class DictionaryCore {
                 <rect width="200" height="200" fill="#F3F4F6"/>
                 <rect x="50" y="50" width="100" height="100" fill="#E1E2E3" rx="8"/>
                 <text x="100" y="110" text-anchor="middle" font-family="Arial" font-size="24" fill="#666666">${emoji}</text>
-                <text x="100" y="160" text-anchor="middle" font-family="Arial" font-size="12" fill="#999999">${word}</text>
             </svg>
         `;
         return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
@@ -248,10 +219,12 @@ class DictionaryCore {
         
         const formattedWord = this.formatWordWithHighlight(wordData.word);
         const emoji = this.getEmojiForWord(wordData.lowercase);
+        // ИСПОЛЬЗУЕМ ТОТ ЖЕ ПУТЬ, ЧТО И В ИГРЕ
+        const imagePath = `../../assets/images/words/${wordData.lowercase}.png`;
         
         card.innerHTML = `
             <div class="word-image">
-                <img src="${wordData.image}" alt="${wordData.lowercase}" 
+                <img src="${imagePath}" alt="${wordData.lowercase}" 
                      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="fallback-emoji" style="display: none;">${emoji}</div>
             </div>
