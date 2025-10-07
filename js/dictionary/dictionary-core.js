@@ -81,7 +81,7 @@ class DictionaryCore {
         
         if (isGitHubPages) {
             // Для GitHub Pages
-            const repoName = 'english-for-kids'; // ЗАМЕНИТЕ на ваше имя репозитория
+            const repoName = 'read_and_play'; 
             return `/${repoName}/assets/images/words/${word}.png`;
         } else {
             // Для локальной разработки
