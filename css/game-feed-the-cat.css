@@ -80,8 +80,8 @@
 /* Контейнер кота */
 .cat-container {
     position: absolute;
-    bottom: 10px; /* Переместили к самому низу */
-    left: calc(50% - 20px); /* Сдвигаем на 20px левее от центра */
+    bottom: 0; /* Переместили к самому низу */
+    left: calc(50% - 30px); /* Сдвигаем на 20px левее от центра */
     transform: translateX(-50%);
     z-index: 10;
 }
