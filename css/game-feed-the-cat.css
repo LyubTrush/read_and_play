@@ -81,7 +81,7 @@
 .cat-container {
     position: absolute;
     bottom: 0; /* Переместили к самому низу */
-    left: calc(50% - 30px); /* Сдвигаем на 20px левее от центра */
+    left: calc(50% - 50px); /* Сдвигаем на 20px левее от центра */
     transform: translateX(-50%);
     z-index: 10;
 }
