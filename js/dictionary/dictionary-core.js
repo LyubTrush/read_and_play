@@ -107,7 +107,7 @@ class DictionaryCore {
         if (isGitHubPages) {
             // Для GitHub Pages
             const repoName = 'read_and_play'; 
-            return `/${repoName}/assets/audio/words/${word}.mp3`;
+            return `/${repoName}/assets/audio/words/${word}.wav`;
         } else {
             // Для локальной разработки
             const isInPagesFolder = window.location.pathname.includes('/pages/');
