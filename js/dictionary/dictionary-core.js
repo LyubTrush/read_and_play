@@ -326,7 +326,7 @@ class DictionaryCore {
             <div class="word-russian">${wordData.translation || 'перевод'}</div>
             
             <button class="sound-button" onclick="playWordSound('${wordData.lowercase}')">
-                🔊 Прослушать
+                 Прослушать
             </button>
         `;
         
