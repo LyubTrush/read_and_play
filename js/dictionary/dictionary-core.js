@@ -5,12 +5,14 @@ class DictionaryCore {
         this.currentWordIndex = 0;
         this.dictionaryData = null;
         this.currentViewMode = 'single';
+        this.audioCache = new Map(); // Кэш для аудио объектов
         this.config = {
             dataPath: '',
             highlightType: 'letter',
             highlightTarget: 'a',
             emojiMap: {},
             soundEnabled: true,
+            audioBasePath: '../../assets/audio/words', // Базовый путь к аудио
             ...config
         };
 
@@ -43,7 +45,9 @@ class DictionaryCore {
             this.dictionaryData = await response.json();
             console.log('Данные словаря успешно загружены:', this.dictionaryData);
             
-            // ИСПРАВЛЕНИЕ: Используем реальные данные из JSON, а не fallback
+            // Предзагрузка аудио для первой группы
+            this.preloadAudioForGroup(0);
+            
             this.createGroupsNavigation();
             this.showCurrentGroup();
             this.setupKeyboardNavigation();
@@ -51,6 +55,66 @@ class DictionaryCore {
         } catch (error) {
             console.error('Ошибка загрузки данных:', error);
             this.createFallbackData();
+        }
+    }
+
+    // Предзагрузка аудио для группы
+    async preloadAudioForGroup(groupIndex) {
+        if (!this.dictionaryData?.levels[groupIndex]) return;
+        
+        const group = this.dictionaryData.levels[groupIndex];
+        console.log(`Предзагрузка аудио для группы: ${group.name}`);
+        
+        for (const wordData of group.words) {
+            const audioPath = this.getAudioPath(wordData.lowercase);
+            await this.preloadAudio(wordData.lowercase, audioPath);
+        }
+    }
+
+    // Предзагрузка одного аудиофайла
+    async preloadAudio(word, audioPath) {
+        return new Promise((resolve) => {
+            if (this.audioCache.has(word)) {
+                resolve();
+                return;
+            }
+
+            const audio = new Audio();
+            audio.preload = 'auto';
+            
+            audio.addEventListener('canplaythrough', () => {
+                console.log(`Аудио загружено: ${word}`);
+                this.audioCache.set(word, audio);
+                resolve();
+            });
+
+            audio.addEventListener('error', (e) => {
+                console.warn(`Ошибка загрузки аудио ${word}:`, audioPath, e);
+                // Создаем пустой аудио объект для избежания повторных попыток
+                this.audioCache.set(word, null);
+                resolve();
+            });
+
+            audio.src = audioPath;
+        });
+    }
+
+    // НОВЫЙ МЕТОД: Получение правильного пути к аудио
+    getAudioPath(word) {
+        // Проверяем, находимся ли мы на GitHub Pages
+        const isGitHubPages = window.location.hostname.includes('github.io');
+        
+        if (isGitHubPages) {
+            // Для GitHub Pages
+            const repoName = 'read_and_play'; 
+            return `/${repoName}/assets/audio/words/${word}.mp3`;
+        } else {
+            // Для локальной разработки
+            const isInPagesFolder = window.location.pathname.includes('/pages/');
+            const basePath = isInPagesFolder 
+                ? '../../assets/audio/words'
+                : '../assets/audio/words';
+            return `${basePath}/${word}.mp3`;
         }
     }
 
@@ -120,6 +184,12 @@ class DictionaryCore {
                 event.preventDefault();
                 this.nextWord();
                 break;
+            case ' ':
+                event.preventDefault();
+                const currentGroup = this.dictionaryData.levels[this.currentGroupIndex];
+                const currentWord = currentGroup.words[this.currentWordIndex];
+                this.playWordSound(currentWord.lowercase);
+                break;
         }
     }
 
@@ -144,13 +214,16 @@ class DictionaryCore {
     }
 
     // Переключение группы
-    switchGroup(groupIndex) {
+    async switchGroup(groupIndex) {
         this.currentGroupIndex = groupIndex;
         this.currentWordIndex = 0;
         
         document.querySelectorAll('.group-button').forEach((btn, index) => {
             btn.classList.toggle('active', index === groupIndex);
         });
+        
+        // Предзагрузка аудио для новой группы
+        await this.preloadAudioForGroup(groupIndex);
         
         this.showCurrentGroup();
     }
@@ -238,7 +311,7 @@ class DictionaryCore {
         const formattedWord = this.formatWordWithHighlight(wordData.word);
         const emoji = this.getEmojiForWord(wordData.lowercase);
         
-        // ИСПРАВЛЕНИЕ: Используем динамический путь к картинке
+        // Используем динамический путь к картинке
         const imagePath = this.getImagePath(wordData.lowercase);
         
         card.innerHTML = `
@@ -253,7 +326,7 @@ class DictionaryCore {
             <div class="word-russian">${wordData.translation || 'перевод'}</div>
             
             <button class="sound-button" onclick="playWordSound('${wordData.lowercase}')">
-                Прослушать
+                🔊 Прослушать
             </button>
         `;
         
@@ -358,11 +431,63 @@ class DictionaryCore {
         this.showCurrentWord(currentGroup);
     }
 
+    // ОБНОВЛЕННЫЙ МЕТОД: Воспроизведение звука из файлов
     playWordSound(word) {
         if (!this.config.soundEnabled) return;
         
         console.log(`Воспроизводим звук: ${word}`);
         
+        // Останавливаем текущее воспроизведение
+        this.stopCurrentAudio();
+        
+        // Проверяем кэш
+        if (this.audioCache.has(word)) {
+            const audio = this.audioCache.get(word);
+            if (audio) {
+                audio.currentTime = 0;
+                audio.play().catch(e => {
+                    console.warn(`Ошибка воспроизведения аудио ${word}:`, e);
+                    this.fallbackToTTS(word);
+                });
+            } else {
+                this.fallbackToTTS(word);
+            }
+        } else {
+            // Пытаемся загрузить и воспроизвести
+            this.loadAndPlayAudio(word);
+        }
+    }
+
+    // Загрузка и воспроизведение аудио
+    async loadAndPlayAudio(word) {
+        const audioPath = this.getAudioPath(word);
+        const audio = new Audio();
+        
+        try {
+            await new Promise((resolve, reject) => {
+                audio.addEventListener('canplaythrough', resolve);
+                audio.addEventListener('error', reject);
+                audio.src = audioPath;
+                
+                // Таймаут на загрузку
+                setTimeout(() => reject(new Error('Timeout')), 3000);
+            });
+            
+            this.audioCache.set(word, audio);
+            audio.play().catch(e => {
+                console.warn(`Ошибка воспроизведения:`, e);
+                this.fallbackToTTS(word);
+            });
+            
+        } catch (error) {
+            console.warn(`Не удалось загрузить аудио ${word}:`, error);
+            this.audioCache.set(word, null);
+            this.fallbackToTTS(word);
+        }
+    }
+
+    // Fallback на синтез речи
+    fallbackToTTS(word) {
         if ('speechSynthesis' in window) {
             const utterance = new SpeechSynthesisUtterance(word);
             utterance.lang = 'en-US';
@@ -384,12 +509,28 @@ class DictionaryCore {
         }
     }
 
+    // Остановка текущего аудио
+    stopCurrentAudio() {
+        this.audioCache.forEach(audio => {
+            if (audio && !audio.paused) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+        });
+        
+        if ('speechSynthesis' in window) {
+            speechSynthesis.cancel();
+        }
+    }
+
     getEmojiForWord(word) {
         return this.config.emojiMap[word] || '📖';
     }
 
     destroy() {
         document.removeEventListener('keydown', this.handleKeyDown);
+        this.stopCurrentAudio();
+        this.audioCache.clear();
     }
 }
 
