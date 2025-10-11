@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анимированный персонаж - Read and Play</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: linear-gradient(135deg, #C2E1DB, #E8F4F1);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .learning-container {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #E57140;
+            margin-bottom: 30px;
+        }
+
+        .page-text {
+            font-size: 18px;
+            color: #3F413E;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        /* Контейнер персонажа */
+        .character-container {
+            position: relative;
+            width: 200px;
+            height: 250px;
+            margin: 30px auto;
+        }
+
+        .character {
+            width: 150px;
+            height: 200px;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        /* Тело персонажа (CSS-рисунок) */
+        .character-body {
+            width: 120px;
+            height: 180px;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        /* Голова */
+        .head {
+            width: 80px;
+            height: 80px;
+            background: #FFD700;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 20px;
+            z-index: 3;
+        }
+
+        /* Волосы */
+        .hair {
+            width: 90px;
+            height: 40px;
+            background: #8B4513;
+            border-radius: 45px 45px 0 0;
+            position: absolute;
+            top: -15px;
+            left: 15px;
+            z-index: 2;
+        }
+
+        /* Глаза */
+        .eye {
+            width: 12px;
+            height: 12px;
+            background: #333;
+            border-radius: 50%;
+            position: absolute;
+            top: 35px;
+        }
+
+        .eye.left { left: 25px; }
+        .eye.right { right: 25px; }
+
+        /* Рот */
+        .mouth {
+            width: 30px;
+            height: 10px;
+            border-bottom: 3px solid #333;
+            border-radius: 0 0 15px 15px;
+            position: absolute;
+            top: 55px;
+            left: 45px;
+            transition: all 0.3s ease;
+        }
+
+        /* Тело */
+        .body {
+            width: 60px;
+            height: 80px;
+            background: #E57140;
+            border-radius: 30px 30px 0 0;
+            position: absolute;
+            top: 80px;
+            left: 30px;
+            z-index: 2;
+        }
+
+        /* Руки */
+        .arm {
+            width: 15px;
+            height: 60px;
+            background: #FFD700;
+            border-radius: 7px;
+            position: absolute;
+            top: 85px;
+            transform-origin: top center;
+        }
+
+        .arm.left {
+            left: 15px;
+            animation: wave-left 2s ease-in-out infinite;
+        }
+
+        .arm.right {
+            right: 15px;
+        }
+
+        /* Ноги */
+        .leg {
+            width: 20px;
+            height: 70px;
+            background: #E57140;
+            border-radius: 0 0 10px 10px;
+            position: absolute;
+            top: 160px;
+        }
+
+        .leg.left { left: 35px; }
+        .leg.right { right: 35px; }
+
+        /* Пузырь речи */
+        .speech-bubble {
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 15px 20px;
+            border-radius: 20px;
+            border: 3px solid #E57140;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            min-width: 200px;
+            text-align: center;
+            font-size: 16px;
+            z-index: 10;
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 10px 10px 0 10px;
+            border-style: solid;
+            border-color: #E57140 transparent transparent transparent;
+        }
+
+        .speech-bubble.show {
+            opacity: 1;
+            animation: bubblePop 0.3s ease;
+        }
+
+        /* Анимации */
+        @keyframes wave-left {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-30deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes blink {
+            0%, 90%, 100% { transform: scaleY(1); }
+            95% { transform: scaleY(0.1); }
+        }
+
+        @keyframes bubblePop {
+            0% { transform: translateX(-50%) scale(0); }
+            80% { transform: translateX(-50%) scale(1.1); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+
+        @keyframes think {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes happy {
+            0%, 100% { transform: translateY(0); }
+            25% { transform: translateY(-5px) rotate(-5deg); }
+            75% { transform: translateY(-5px) rotate(5deg); }
+        }
+
+        /* Состояния персонажа */
+        .character.idle .arm.left {
+            animation: wave-left 3s ease-in-out infinite;
+        }
+
+        .character.idle .head {
+            animation: bounce 3s ease-in-out infinite;
+        }
+
+        .character.idle .eye {
+            animation: blink 3s infinite;
+        }
+
+        .character.thinking .head {
+            animation: think 2s ease-in-out infinite;
+        }
+
+        .character.thinking .mouth {
+            width: 20px;
+            border-bottom: 3px solid #333;
+            border-radius: 50%;
+        }
+
+        .character.happy .head {
+            animation: happy 0.5s ease-in-out infinite;
+        }
+
+        .character.happy .mouth {
+            width: 35px;
+            border-bottom: 4px solid #333;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .character.surprised .eye {
+            width: 15px;
+            height: 15px;
+        }
+
+        .character.surprised .mouth {
+            width: 25px;
+            height: 25px;
+            border: 3px solid #333;
+            border-radius: 50%;
+            background: transparent;
+        }
+
+        /* Кнопки */
+        .buttons-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #E57140;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #d16232;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #AED7D1;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #9bc7c0;
+            transform: translateY(-2px);
+        }
+
+        .state-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .state-btn {
+            padding: 8px 15px;
+            background: #F7F1E5;
+            border: 2px solid #B2956D;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .state-btn:hover {
+            background: #E57140;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="learning-container">
+        <h1 class="page-title">Анимированный персонаж</h1>
+        <p class="page-text">Посмотри, как персонаж оживает с помощью CSS-анимаций!</p>
+        
+        <div class="character-container">
+            <div class="speech-bubble" id="speechBubble">Привет! Я твой помощник!</div>
+            
+            <div class="character idle" id="character">
+                <div class="character-body">
+                    <div class="hair"></div>
+                    <div class="head">
+                        <div class="eye left"></div>
+                        <div class="eye right"></div>
+                        <div class="mouth"></div>
+                    </div>
+                    <div class="body"></div>
+                    <div class="arm left"></div>
+                    <div class="arm right"></div>
+                    <div class="leg left"></div>
+                    <div class="leg right"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="buttons-container">
+            <button class="btn btn-primary" onclick="speak('Привет! Давай учиться вместе!')">
+                Поздороваться
+            </button>
+            <button class="btn btn-secondary" onclick="speak('Отличная работа! 🌟')">
+                Похвалить
+            </button>
+        </div>
+
+        <div class="state-buttons">
+            <button class="state-btn" onclick="setState('idle')">Обычный</button>
+            <button class="state-btn" onclick="setState('thinking')">Думает</button>
+            <button class="state-btn" onclick="setState('happy')">Радуется</button>
+            <button class="state-btn" onclick="setState('surprised')">Удивлен</button>
+        </div>
+
+        <div style="margin-top: 30px; font-size: 14px; color: #666;">
+            <p>👆 Попробуй разные состояния персонажа!</p>
+        </div>
+    </div>
+
+    <script>
+        const character = document.getElementById('character');
+        const speechBubble = document.getElementById('speechBubble');
+
+        function setState(state) {
+            // Убираем все классы состояний
+            character.classList.remove('idle', 'thinking', 'happy', 'surprised');
+            // Добавляем новое состояние
+            character.classList.add(state);
+            
+            // Автоматическое сообщение для состояния
+            const messages = {
+                'idle': 'Я готов помочь!',
+                'thinking': 'Дай-ка подумать...',
+                'happy': 'Ура! Так весело!',
+                'surprised': 'Ой! Что это было?'
+            };
+            
+            speak(messages[state]);
+        }
+
+        function speak(text) {
+            speechBubble.textContent = text;
+            speechBubble.classList.add('show');
+            
+            // Скрываем пузырь через 3 секунды
+            setTimeout(() => {
+                speechBubble.classList.remove('show');
+            }, 3000);
+        }
+
+        // Автоматическое моргание
+        setInterval(() => {
+            if (character.classList.contains('idle')) {
+                const eyes = document.querySelectorAll('.eye');
+                eyes.forEach(eye => {
+                    eye.style.animation = 'none';
+                    setTimeout(() => {
+                        eye.style.animation = 'blink 3s infinite';
+                    }, 10);
+                });
+            }
+        }, 4000);
+
+        // Начальное приветствие
+        setTimeout(() => {
+            speak('Привет! Я твой помощник в изучении английского!');
+        }, 1000);
+    </script>
+</body>
+</html>

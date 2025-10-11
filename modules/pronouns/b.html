@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поздоровайся с мальчиком</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .title {
+            color: #333;
+            font-size: 2.2em;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .character {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: #f7f1e5;
+            margin: 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 5px solid #667eea;
+            overflow: hidden;
+            transition: none;
+        }
+
+        .character-image {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+            border-radius: 50%;
+            transition: none;
+        }
+
+        .btn-hello {
+            padding: 20px 40px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            background: #e57140;
+            color: white;
+            margin: 20px 0;
+            transition: all 0.2s ease;
+            box-shadow: 0 5px 15px rgba(229, 113, 64, 0.3);
+        }
+
+        .btn-hello:hover {
+            background: #d16232;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(229, 113, 64, 0.4);
+        }
+
+        .btn-hello:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 10px rgba(229, 113, 64, 0.3);
+        }
+
+        .btn-hello:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .instruction {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .debug-info {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            font-size: 0.9em;
+            color: #666;
+            display: none; /* Скрыть в продакшене */
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px 20px;
+            }
+            
+            .title {
+                font-size: 1.8em;
+            }
+            
+            .character {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .character-image {
+                width: 130px;
+                height: 130px;
+            }
+            
+            .btn-hello {
+                padding: 15px 30px;
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Поздоровайся с мальчиком!</h1>
+        
+        <p class="instruction">Нажми кнопку "Поздороваться", чтобы поприветствовать мальчика и услышать приветствие на английском</p>
+        
+        <div class="character">
+            <img src="../../assets/images/learning/pronouns/boy_normal.png" alt="Мальчик" class="character-image" id="boyImage">
+        </div>
+        
+        <button class="btn-hello" id="helloBtn" onclick="sayHello()">
+            👋 Поздороваться
+        </button>
+
+        <!-- Отладочная информация -->
+        <div class="debug-info" id="debugInfo"></div>
+    </div>
+
+    <script>
+        let imagesLoaded = {
+            normal: false,
+            hello: false
+        };
+
+        function sayHello() {
+            const boyImage = document.getElementById('boyImage');
+            const helloBtn = document.getElementById('helloBtn');
+            const debugInfo = document.getElementById('debugInfo');
+            
+            // Отладочная информация
+            debugInfo.innerHTML = `
+                Статус загрузки изображений:<br>
+                boy_normal.png: ${imagesLoaded.normal ? '✅ Загружено' : '❌ Не загружено'}<br>
+                boy_hello.png: ${imagesLoaded.hello ? '✅ Загружено' : '❌ Не загружено'}<br>
+                Текущий src: ${boyImage.src}
+            `;
+            
+            if (!imagesLoaded.hello) {
+                alert('Вторая картинка не загружена! Проверьте путь к файлу boy_hello.png');
+                return;
+            }
+            
+            // Блокируем кнопку на время анимации
+            helloBtn.disabled = true;
+            
+            // Резко меняем картинку на boy_hello.png
+            console.log('Меняем картинку на boy_hello.png');
+            boyImage.src = '../../assets/images/learning/pronouns/boy_hello.png';
+            
+            // Воспроизводим звук
+            playHelloSound();
+            
+            // Через 2 секунды резко возвращаем исходную картинку
+            setTimeout(() => {
+                console.log('Возвращаем картинку на boy_normal.png');
+                boyImage.src = '../../assets/images/learning/pronouns/boy_normal.png';
+                helloBtn.disabled = false;
+            }, 2000);
+        }
+
+        function playHelloSound() {
+            // Создаем и воспроизводим звук через Web Speech API
+            const utterance = new SpeechSynthesisUtterance();
+            utterance.text = "Hello!";
+            utterance.lang = "en-US";
+            utterance.rate = 0.9;
+            utterance.pitch = 1.1;
+            
+            speechSynthesis.speak(utterance);
+        }
+
+        // Предзагрузка изображений для мгновенной смены
+        window.addEventListener('load', function() {
+            const debugInfo = document.getElementById('debugInfo');
+            const imagePaths = {
+                normal: '../../assets/images/learning/pronouns/boy_normal.png',
+                hello: '../../assets/images/learning/pronouns/boy_hello.png'
+            };
+            
+            // Предзагружаем оба изображения
+            Object.keys(imagePaths).forEach(key => {
+                const img = new Image();
+                img.onload = function() {
+                    console.log(`✅ Изображение загружено: ${imagePaths[key]}`);
+                    imagesLoaded[key] = true;
+                    updateDebugInfo();
+                };
+                img.onerror = function() {
+                    console.error(`❌ Ошибка загрузки: ${imagePaths[key]}`);
+                    imagesLoaded[key] = false;
+                    updateDebugInfo();
+                };
+                img.src = imagePaths[key];
+            });
+
+            function updateDebugInfo() {
+                debugInfo.innerHTML = `
+                    Статус загрузки изображений:<br>
+                    boy_normal.png: ${imagesLoaded.normal ? '✅ Загружено' : '❌ Не загружено'}<br>
+                    boy_hello.png: ${imagesLoaded.hello ? '✅ Загружено' : '❌ Не загружено'}
+                `;
+            }
+        });
+
+        // Обработчик для кнопки Enter
+        document.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' && !document.getElementById('helloBtn').disabled) {
+                sayHello();
+            }
+        });
+    </script>
+</body>
+</html>

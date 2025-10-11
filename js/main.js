@@ -43,6 +43,13 @@ const modules = [
         description: "Изучение различных звуков буквы O в словах.",
         image: "assets/images/modules/letter-o.png",
         link: "modules/letter-o/index.html"
+    },
+     {
+        id: 7,
+        title: "Местоимения ",
+        description: "Изучение обычных и притяжательных местоимений.",
+        image: "assets/images/modules/pronouns.png",
+        link: "modules/pronouns/index.html"
     }
 ];
 

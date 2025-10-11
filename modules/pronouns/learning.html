@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обучение: Местоимения - Read and Play</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/game-styles.css">
+    <style>
+        /* Контейнер игры с фиксированной высотой */
+        .game-container {
+            height: 85vh;
+            min-height: 600px;
+            max-height: 800px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Стили для экрана обучения */
+        .learning-screen {
+            display: none;
+            height: 100%;
+            position: relative;
+            flex-direction: column;
+        }
+
+        /* Заголовок на белом фоне */
+        .learning-header {
+            background: white;
+            padding: 25px 40px;
+            text-align: center;
+        }
+
+        .learning-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #E57140;
+            margin: 0;
+        }
+
+        /* Основной контент */
+        .learning-content {
+            background: #ECD7B5;
+            margin-left: 20px;
+            margin-right: 20px;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .character-section {
+            flex: 0 0 45%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .character-image {
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .character-image.pinched {
+            transform: scale(1.05);
+        }
+
+        .text-section {
+            flex: 0 0 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .speech-bubble {
+            background: white;
+            border: 3px solid #653224;
+            border-radius: 25px;
+            padding: 25px;
+            font-size: 25px;
+            line-height: 1.5;
+            color: #653224;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .speech-bubble:after {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 15px 20px 15px 0;
+            border-style: solid;
+            border-color: transparent #653224 transparent transparent;
+        }
+
+        /* Контейнер для кнопок под speech bubble */
+        .buttons-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        /* Кнопка ущипнуть */
+        .btn-pinch {
+            background: #E57140;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+        }
+
+        .btn-pinch:hover {
+            background: #d16232;
+            transform: translateY(-2px);
+        }
+
+        .btn-pinch:active {
+            transform: translateY(0);
+        }
+
+        /* Кнопка узнать */
+        .btn-discover {
+            background: #E57140;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+        }
+
+        .btn-discover:hover {
+            background: #d16232;
+            transform: translateY(-2px);
+        }
+
+        /* Окно с карточками */
+        .cards-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cards-modal {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .cards-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #E57140;
+            margin-bottom: 30px;
+        }
+
+        .cards-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .sentence-card {
+            background: #f7f1e5;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: left;
+            font-size: 20px;
+            line-height: 1.4;
+            border-left: 4px solid #653224;
+        }
+
+        .highlight {
+            background: #ffe0b2;
+            padding: 2px 5px;
+            border-radius: 5px;
+            font-weight: 700;
+            color: #653224;
+        }
+
+        .close-cards {
+            background: #AED7D1;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-cards:hover {
+            background: #9bc7c0;
+            transform: translateY(-2px);
+        }
+
+        /* Детское окно с английским ответом */
+        .english-answer {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .english-letter {
+            font-size: 80px;
+            font-weight: bold;
+            color: #E57140;
+            text-shadow: 3px 3px 0 #FFD700;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        .english-pronunciation {
+            font-size: 36px;
+            color: #653224;
+            font-weight: 700;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Игра с шариками */
+        .balls-game-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .balls-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .ball {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #f7f1e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .ball:hover {
+            transform: scale(1.1);
+        }
+
+        .ball.correct {
+            background: #c8e6c9;
+            border-color: #4caf50;
+            transform: scale(1.2);
+        }
+
+        .ball.selected {
+            background: #ffe0b2;
+            border-color: #E57140;
+        }
+
+        /* Блок кнопок внизу */
+        .learning-footer {
+            background: white;
+            padding: 25px 40px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* Кнопка продолжить */
+        .btn-continue {
+            background: #E57140;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 180px;
+        }
+
+        .btn-continue:hover {
+            background: #d16232;
+            transform: translateY(-2px);
+        }
+
+        .btn-continue:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Кнопка назад */
+        .btn-back-learning {
+            background: #AED7D1;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 180px;
+        }
+
+        .btn-back-learning:hover {
+            background: #9bc7c0;
+            transform: translateY(-2px);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .learning-content {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .character-section,
+            .text-section {
+                flex: none;
+                width: 100%;
+            }
+
+            .character-image {
+                max-width: 250px;
+            }
+
+            .speech-bubble {
+                font-size: 16px;
+                padding: 20px;
+            }
+
+            .learning-header,
+            .learning-footer {
+                padding: 20px;
+            }
+
+            .btn-continue,
+            .btn-back-learning {
+                padding: 12px 30px;
+                font-size: 16px;
+                min-width: 140px;
+            }
+
+            .cards-modal {
+                padding: 30px 25px;
+            }
+
+            .cards-title {
+                font-size: 24px;
+            }
+
+            .sentence-card {
+                font-size: 16px;
+                padding: 15px;
+            }
+
+            .buttons-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .btn-pinch,
+            .btn-discover {
+                min-width: 120px;
+                padding: 12px 20px;
+            }
+
+            .english-letter {
+                font-size: 60px;
+            }
+
+            .english-pronunciation {
+                font-size: 28px;
+            }
+
+            .balls-container {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+
+            .ball {
+                width: 60px;
+                height: 60px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <!-- Экран выбора уровня -->
+        <div class="level-select-screen active" id="levelSelect">
+            <h1 class="game-title">Местоимения</h1>
+            <p class="game-subtitle">Выбери уровень для обучения</p>
+            
+            <div class="levels-grid">
+                <div class="level-card" onclick="startLevel(1)">
+                    <div class="level-number">I</div>
+                    <div class="level-name">"Я"</div>
+                    <div class="level-words">Произношение и написание</div>
+                </div>
+                <div class="level-card" onclick="startLevel(2)">
+                    <div class="level-number">You</div>
+                    <div class="level-name">"Ты"</div>
+                    <div class="level-words">Произношение и написание</div>
+                </div>
+                <div class="level-card" onclick="startLevel(3)">
+                    <div class="level-number">He and She</div>
+                    <div class="level-name">"Он" и "Она"</div>
+                    <div class="level-words">Различия и использование</div>
+                </div>
+                <div class="level-card" onclick="startLevel(4)">
+                    <div class="level-number">It</div>
+                    <div class="level-name">"Оно"</div>
+                    <div class="level-words">Для предметов и животных</div>
+                </div>
+                <div class="level-card" onclick="startLevel(5)">
+                    <div class="level-number">We and They</div>
+                    <div class="level-name">"Мы" и "Они"</div>
+                    <div class="level-words">Множественное число</div>
+                </div>
+            </div>
+            <button class="back-button" onclick="window.location.href='../../modules/magic-letter-a/games-rule-1.html'">
+                ← Назад к играм
+            </button>   
+        </div>
+
+        <!-- Экран обучения 1 -->
+        <div class="learning-screen" id="learningScreen1">
+            <!-- Заголовок -->
+            <div class="learning-header">
+                <h1 class="learning-title">Знакомство с «I» (Я)</h1>
+            </div>
+            
+            <!-- Основной контент -->
+            <div class="learning-content">
+                <div class="character-section">
+                    <img src="../../assets/images/learning/pronouns/boy_hello.png" alt="Мальчик говорит" class="character-image">
+                </div>
+                
+                <div class="text-section">
+                    <div class="speech-bubble">
+                        Привет! Давай познакомимся с самыми главными словами в английском языке.
+                    </div>
+                    <button class="sound-button" title="Прослушать слово" onclick="playLearningSound1()">
+                        <img src="../../assets/icon/speaker.png" alt="Прослушать слово">
+                    </button>
+                </div>
+            </div>
+
+            <!-- Кнопки внизу -->
+            <div class="learning-footer">
+                <button class="btn-back-learning" onclick="backToLevels()">
+                    Назад
+                </button>
+                <button class="btn-continue" onclick="showScreen(2)">
+                    Продолжить
+                </button>
+            </div>
+        </div>
+
+        <!-- Экран обучения 2 -->
+        <div class="learning-screen" id="learningScreen2">
+            <!-- Заголовок -->
+            <div class="learning-header">
+                <h1 class="learning-title">Какое слово мы произносим чаще всего?</h1>
+            </div>
+            
+            <!-- Основной контент -->
+            <div class="learning-content">
+                <div class="character-section">
+                    <img src="../../assets/images/learning/pronouns/boy_thihk.png" alt="Мальчик думает" class="character-image">
+                </div>
+                
+                <div class="text-section">
+                    <div class="speech-bubble">
+                        Подумай, какое слово ты используешь каждый день, рассказывая о себе?
+                    </div>
+                    <div class="buttons-container">
+                        <button class="sound-button" title="Прослушать слово" onclick="playLearningSound2()">
+                            <img src="../../assets/icon/speaker.png" alt="Прослушать слово">
+                        </button>
+                        <button class="btn-discover" onclick="showCards()">
+                            Узнать
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Кнопки внизу -->
+            <div class="learning-footer">
+                <button class="btn-back-learning" onclick="showScreen(1)">
+                    Назад
+                </button>
+                <button class="btn-continue" onclick="showScreen(3)">
+                    Продолжить
+                </button>
+            </div>
+        </div>
+
+        <!-- Экран обучения 3 -->
+        <div class="learning-screen" id="learningScreen3">
+            <!-- Заголовок -->
+            <div class="learning-header">
+                <h1 class="learning-title">Как сказать "Я" на английском?</h1>
+            </div>
+            
+            <!-- Основной контент -->
+            <div class="learning-content">
+                <div class="character-section">
+                    <img src="../../assets/images/learning/pronouns/boy_normal.png" alt="Мальчик" class="character-image" id="pinchBoy">
+                </div>
+                
+                <div class="text-section">
+                    <div class="speech-bubble">
+                        Что ты скажешь если тебя кто-то ущипнет?
+                    </div>
+                    <div class="buttons-container">
+                        <button class="btn-pinch" onclick="pinchBoy()">
+                            Ущипнуть
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Кнопки внизу -->
+            <div class="learning-footer">
+                <button class="btn-back-learning" onclick="showScreen(2)">
+                    Назад
+                </button>
+                <button class="btn-continue" onclick="showEnglishAnswer()">
+                    Продолжить
+                </button>
+            </div>
+        </div>
+
+        <!-- Экран обучения 4 - Игра с шариками -->
+        <div class="learning-screen" id="learningScreen4">
+            <!-- Заголовок -->
+            <div class="learning-header">
+                <h1 class="learning-title">Найди все шарики где написано "Я" на английском</h1>
+            </div>
+            
+            <!-- Основной контент -->
+            <div class="learning-content" style="justify-content: center;">
+                <div class="balls-game-container">
+                    <div class="balls-container" id="ballsContainer">
+                        <!-- Шарики будут добавлены через JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Кнопки внизу -->
+            <div class="learning-footer">
+                <button class="btn-back-learning" onclick="showScreen(3)">
+                    Назад
+                </button>
+                <button class="btn-continue" id="ballsContinueBtn" disabled onclick="showScreen(5)">
+                    Продолжить
+                </button>
+            </div>
+        </div>
+
+        <!-- Окно с карточками -->
+        <div class="cards-overlay" id="cardsOverlay">
+            <div class="cards-modal">
+                <h2 class="cards-title">Какое слово есть в каждом предложении?</h2>
+                
+                <div class="cards-container">
+                    <div class="sentence-card">
+                        <span class="highlight">Я</span> проснулся
+                    </div>
+                    <div class="sentence-card">
+                        <span class="highlight">Я</span> голодный
+                    </div>
+                    <div class="sentence-card">
+                        <span class="highlight">Я</span> пошел гулять
+                    </div>
+                </div>
+
+                <button class="btn-discover" onclick="showAnswer()" style="margin-bottom: 20px;">
+                    Какое?
+                </button>
+                <br>
+                <button class="close-cards" onclick="closeCards()">
+                    Закрыть
+                </button>
+            </div>
+        </div>
+
+        <!-- Окно с ответом -->
+        <div class="cards-overlay" id="answerOverlay">
+            <div class="cards-modal">
+                <h2 class="cards-title">Правильно!</h2>
+                
+                <div class="sentence-card" style="text-align: center; font-size: 24px; margin: 30px 0;">
+                    <span class="highlight">Я</span>
+                </div>
+
+                <p style="font-size: 18px; color: #666; margin-bottom: 30px;">
+                    Слово <strong>"Я"</strong> есть в каждом предложении!
+                </p>
+
+                <button class="close-cards" onclick="closeAnswer()">
+                    Понятно
+                </button>
+            </div>
+        </div>
+
+        <!-- Окно с английским ответом -->
+        <div class="cards-overlay" id="englishAnswerOverlay">
+            <div class="cards-modal">
+                <h2 class="cards-title">"Я" на английском</h2>
+                
+                <div class="english-answer">
+                    <div class="english-letter">I</div>
+                    <div class="english-pronunciation">[АЙ]</div>
+                </div>
+
+                <p style="font-size: 18px; color: #666; margin-bottom: 30px;">
+                    "Я" на английском звучит как <strong style="color: #E57140;">АЙ</strong>
+                </p>
+
+                <button class="close-cards" onclick="closeEnglishAnswer()">
+                    Понятно
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Переменные для управления обучением
+        let currentLevel = 0;
+        let foundBalls = 0;
+        let totalBalls = 0;
+
+        // Функции воспроизведения звука
+        function playLearningSound1() {
+            const audio = new Audio('../../assets/audio/learning/learning_pronouns.wav');
+            audio.play().catch(e => {
+                console.log('Ошибка воспроизведения звука:', e);
+            });
+        }
+
+        function playLearningSound2() {
+            const audio = new Audio('../../assets/audio/learning/learning_pronouns_2.wav');
+            audio.play().catch(e => {
+                console.log('Ошибка воспроизведения звука:', e);
+            });
+        }
+
+        function playAhSound() {
+            const audio = new Audio('../../assets/audio/learning/ah.wav');
+            audio.play().catch(e => {
+                console.log('Ошибка воспроизведения звука:', e);
+            });
+        }
+
+        // Функция ущипнуть мальчика
+        function pinchBoy() {
+            const boyImage = document.getElementById('pinchBoy');
+            const originalSrc = boyImage.src;
+            
+            // Меняем картинку на "ой"
+            boyImage.src = '../../assets/images/learning/pronouns/boy_oh.png';
+            boyImage.classList.add('pinched');
+            
+            // Воспроизводим звук
+            playAhSound();
+            
+            // Возвращаем обратно через 1 секунду
+            setTimeout(() => {
+                boyImage.src = '../../assets/images/learning/pronouns/boy_normal.png';
+                boyImage.classList.remove('pinched');
+            }, 1000);
+        }
+
+        // Игра с шариками
+        function setupBallsGame() {
+            const container = document.getElementById('ballsContainer');
+            container.innerHTML = '';
+            foundBalls = 0;
+
+            const letters = ['I', 'A', 'Y', 'I', 'O', 'I', 'E', 'U', 'I', 'M', 'I', 'N'];
+            totalBalls = letters.filter(letter => letter === 'I').length;
+
+            letters.forEach((letter, index) => {
+                const ball = document.createElement('div');
+                ball.className = 'ball';
+                ball.textContent = letter;
+                ball.onclick = function () {
+                    if (letter === 'I' && !ball.classList.contains('correct')) {
+                        ball.classList.add('correct');
+                        foundBalls++;
+                        checkBallsCompletion();
+                    } else if (letter !== 'I') {
+                        ball.classList.add('selected');
+                        setTimeout(() => {
+                            ball.classList.remove('selected');
+                        }, 1000);
+                    }
+                };
+                container.appendChild(ball);
+            });
+        }
+
+        function checkBallsCompletion() {
+            if (foundBalls === totalBalls) {
+                document.getElementById('ballsContinueBtn').disabled = false;
+            }
+        }
+
+        // Функции управления уровнями
+        function startLevel(level) {
+            console.log('Запуск уровня:', level);
+            currentLevel = level;
+            
+            // Скрываем экран выбора уровня
+            document.getElementById('levelSelect').style.display = 'none';
+            // Показываем первый экран обучения
+            showScreen(1);
+        }
+
+        function backToLevels() {
+            // Скрываем все экраны обучения
+            hideAllScreens();
+            // Показываем экран выбора уровня
+            document.getElementById('levelSelect').style.display = 'block';
+        }
+
+        function showScreen(screenNumber) {
+            // Скрываем все экраны
+            hideAllScreens();
+            // Показываем нужный экран
+            document.getElementById('learningScreen' + screenNumber).style.display = 'flex';
+            
+            // Инициализируем игру с шариками при показе экрана 4
+            if (screenNumber === 4) {
+                setTimeout(setupBallsGame, 100);
+            }
+        }
+
+        function hideAllScreens() {
+            const screens = document.querySelectorAll('.learning-screen');
+            screens.forEach(screen => {
+                screen.style.display = 'none';
+            });
+        }
+
+        function showCards() {
+            document.getElementById('cardsOverlay').style.display = 'flex';
+        }
+
+        function closeCards() {
+            document.getElementById('cardsOverlay').style.display = 'none';
+        }
+
+        function showAnswer() {
+            document.getElementById('cardsOverlay').style.display = 'none';
+            document.getElementById('answerOverlay').style.display = 'flex';
+        }
+
+        function closeAnswer() {
+            document.getElementById('answerOverlay').style.display = 'none';
+        }
+
+        function showEnglishAnswer() {
+            document.getElementById('englishAnswerOverlay').style.display = 'flex';
+        }
+
+        function closeEnglishAnswer() {
+            document.getElementById('englishAnswerOverlay').style.display = 'none';
+            showScreen(4);
+        }
+
+        // Закрытие окон по клику на overlay
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('cards-overlay')) {
+                e.target.style.display = 'none';
+            }
+        });
+
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Экран выбора уровней загружен');
+        });
+    </script>
+</body>
+</html>
